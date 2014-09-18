@@ -87,6 +87,12 @@ app.get('/', function (req, res) {
 
 # ## OTROS COMANDO DE LINEA
 
+### Clonar desde git
+
+```
+$ git clone git@github.com:bachino90/bear_service.git
+```
+
 ### Obtener version de express
 ```
 > npm info express version
