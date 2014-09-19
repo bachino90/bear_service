@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Clients</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <div>
+      <h1>Clients</h1>
+      <p></p>
+    </div>
+    <div>
+      <h2>Add client</h2>
+      <form id="newClientForm" action="/clients" method="post">
+        <label>Name</label>
+        <input type="text" placeholder="Name" name="name" required>
+        <label>Primary UUID</label>
+        <input type="text" placeholder="12312312312-1231-2312-3123-123123123123" name="primary_uuid" pattern="^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$" required>
+        <label>Secondary UUID</label>
+        <input type="text" placeholder="12312312312-1231-2312-3123-123123123123" name="secondary_uuid" pattern="^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$" required>
+      </form>
+    <div>
+  </body>
+</html>

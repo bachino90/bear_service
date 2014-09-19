@@ -29,12 +29,10 @@ function isLoggedIn(req, res, next) {
 // Get all store for client_id
 router.get('/',isLoggedIn,function(req,res) {
   BeaconClient.findById(req.params.client_id).populate('stores').exec(function(err,client) {
-    if (err) console.log('Error: '+err);
-    else {
-      var response = new Object();
-      response.stores = client.stores;
-      res.json({ response: response });
+    if (err) {
+      res.render(err);
     }
+    res.render('store/stores',{ client: client });
   });
 });
 
@@ -47,8 +45,27 @@ router.post('/',isLoggedIn,function(req,res) {
     store.major_id = req.body.major_id;
     store.client = client._id;
     store.save(function (err) {
-      if (err) console.log('Error: '+err);
-      else res.redirect('/clients/'+req.params.client_id);
+      if (err) {
+        res.render(err);
+      }
+      else res.redirect('/clients/'+req.params.client_id+'/stores');
+    });
+  });
+});
+
+// PUT /clients/:client_id/stores/:store_id
+// Create store for client_id
+router.put('/:store_id',isLoggedIn,function(req,res) {
+  Store.findById(req.params.store_id, function(err,store) {
+    store.store_name = req.body.store_name;
+    store.major_id = req.body.major_id;
+    store.location.latitude = req.body.latitude;
+    store.location.longitude = req.body.longitude;
+    store.save(function (err) {
+      if (err) {
+        res.render(err);
+      }
+      else res.redirect('/clients/'+req.params.client_id+'/stores');
     });
   });
 });
@@ -56,6 +73,13 @@ router.post('/',isLoggedIn,function(req,res) {
 // DELETE /clients/:client_id/stores/:store_id
 // Delete store with store_id in client_id
 router.delete('/:store_id',isLoggedIn,function(req,res) {
+  Store.remove({ _id: req.params.store_id }, function (err, storeId) {
+    if (err) {
+      res.render(err);
+    }
+    res.redirect('/clients/'+req.params.client_id+'/stores');
+  });
+  /*
   BeaconClient.findById(req.params.client_id, function(err,client) {
     client.stores.id(req.params.store_id).remove();
     client.save(function (err) {
@@ -63,4 +87,7 @@ router.delete('/:store_id',isLoggedIn,function(req,res) {
       else res.redirect('/clients/'+req.params.client_id);
     });
   });
+  */
 });
+
+module.exports = router;

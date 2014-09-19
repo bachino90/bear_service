@@ -24,47 +24,29 @@ function isLoggedIn(req, res, next) {
   return next();
 }
 
-function insideRedirectToHome(req,res,rN,m,vE,newB,showB,b,c) {
-  if (vE['code'] == 11000) {
-    m = "Already exist";
-  }
-  var title = "Beacons";
-  var client_id = "";
-  if (req.params.client_id) {
-    title = b[0].name;
-    client_id = req.params.client_id;
-  }
-  res.render('beacons/index',{title: title,
-                       clients_side: c,
-                       clients_main: b,
-                          client_id: client_id,
-                           routeNew: rN,
-                            message: m,
-                             valErr: vE,
-                          newBeacon: newB,
-                         showBeacon: showB});
-}
-
+// SHOW ALL
 // GET /clients
 router.get('/', isLoggedIn, function(req, res) {
-  BeaconClient.find(function(err, all_clients){
+  BeaconClient.find(function(err, allClients){
     if (err) {
       res.render(err);
     }
-    res.render('show_clients',{ clients: all_clients });
+    res.render('client/clients',{ clients: allClients });
   });
 });
 
+// SHOW ONE
 // GET /clients/:client_id
-router.get('/:client_id',isLoggedIn, function(req, res){
-  BeaconClient.findById(req.params.client_id, function(err, client){
+router.get('/:client_id',isLoggedIn, function(req, res) {
+  BeaconClient.findById(req.params.client_id, function(err, client) {
     if (err) {
       res.render(err);
     }
-    res.render('client',{ client: client });
+    res.render('client/update_client',{ client: client });
   });
 });
 
+// CREATE
 // POST /clients
 router.post('/', isLoggedIn, function(req,res) {
   var new_client = new BeaconClient();
@@ -79,6 +61,7 @@ router.post('/', isLoggedIn, function(req,res) {
   });
 });
 
+// UPDATE
 // PUT /clients
 router.put('/:client_id', isLoggedIn, function(req,res) {
   // use our bear model to find the bear we want
@@ -98,3 +81,16 @@ router.put('/:client_id', isLoggedIn, function(req,res) {
     });
   });
 });
+
+// DELETE
+// DELETE /clients/:client_id
+router.delete('/:client_id',isLoggedIn, function(req, res){
+  BeaconClient.remove({ _id: req.params.client_id }, function(err, clientId) {
+    if (err) {
+      res.render(err);
+    }
+    res.redirect('/clients');
+  });
+});
+
+module.exports = router;

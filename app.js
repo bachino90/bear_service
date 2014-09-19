@@ -6,14 +6,16 @@ var cookieParser    = require('cookie-parser');
 var bodyParser      = require('body-parser');
 var methodOverride  = require('method-override');
 var mongoose        = require('mongoose');
-var helpers         = require('express-helpers');
 
-var beaconController  = require('./controllers/beacon_controller');
+var app               = express();
+
+var index  = require('./routes/index');
 var clientController  = require('./controllers/client_controller');
 var storeController   = require('./controllers/store_controller');
 var areaController    = require('./controllers/area_controller');
+var beaconController  = require('./controllers/beacon_controller');
 var loginController   = require('./controllers/login_controller');
-var app               = express();
+
 
 //=============================================================================================================//
 //====== App CONFIGURATION ====================================================================================//
@@ -22,7 +24,6 @@ var app               = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-helpers(app);// set view helpers for EJS
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -46,7 +47,9 @@ mongoose.connect(mongoUri); // connect to our database
 //====== Controllers CONFIGURATION ============================================================================//
 //=============================================================================================================//
 
-app.use('/', loginController);
+
+
+app.use('/', index);
 app.use('/clients', clientController);
 app.use('/clients/:clientId/stores', storeController);
 app.use('/clients/:clientId/stores/:storeId/areas', areaController);
