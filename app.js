@@ -1,14 +1,22 @@
-var express       = require('express');
-var path          = require('path');
-var favicon       = require('serve-favicon');
-var logger        = require('morgan');
-var cookieParser  = require('cookie-parser');
-var bodyParser    = require('body-parser');
+var express         = require('express');
+var path            = require('path');
+var favicon         = require('serve-favicon');
+var logger          = require('morgan');
+var cookieParser    = require('cookie-parser');
+var bodyParser      = require('body-parser');
 
-var routes        = require('./routes/index');
-var users         = require('./routes/users');
+var routes            = require('./routes/index');
+var users             = require('./routes/users');
+var beaconController  = require('./controllers/beacon_controller');
+var clientController  = require('./controllers/client_controller');
+var storeController   = require('./controllers/store_controller');
+var areaController    = require('./controllers/area_controller');
+var loginController   = require('./controllers/login_controller');
+var app               = express();
 
-var app           = express();
+//===========================================================================================//
+//====== App CONFIGURATION ==================================================================//
+//===========================================================================================//
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -22,8 +30,18 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/users', users);
+//===========================================================================================//
+//====== Controllers CONFIGURATION ==========================================================//
+//===========================================================================================//
+
+app.use('/', loginController);
+app.use('/clients', clientController);
+app.use('/clients/:clientId/stores', storeController);
+app.use('/clients/:clientId/stores/:storeId/areas', areaController);
+
+//===========================================================================================//
+//====== Error Handlers CONFIGURATION =======================================================//
+//===========================================================================================//
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
