@@ -9,7 +9,7 @@ var Store          = require('../models/beacon').Store;
 var Area           = require('../models/beacon').Area;
 var Beacon         = require('../models/beacon').Beacon;
 var BeaconClient   = require('../models/beacon').BeaconClient;
-
+var client_id;
 
 // route middleware to make sure a user is logged in
 function isLoggedIn(req, res, next) {
@@ -20,26 +20,46 @@ function isLoggedIn(req, res, next) {
   // if they aren't redirect them to the home page
   res.redirect('../');
   */
-
+  client_id = req.baseUrl.split("/")[2];
+  //console.log(client_id);
   return next();
 }
-
 
 // GET /clients/:client_id/stores
 // Get all store for client_id
 router.get('/',isLoggedIn,function(req,res) {
-  BeaconClient.findById(req.params.client_id).populate('stores').exec(function(err,client) {
+  //client_id = req.path.split("/")[1];
+  console.log('ENTRA');
+  console.log(req.baseUrl);
+  console.log(client_id);
+  BeaconClient.findById(client_id).populate('stores').exec(function(err,client) {
     if (err) {
       res.render(err);
     }
+    //console.log(req.route);
     res.render('store/stores',{ client: client });
+  });
+});
+
+// GET /clients/:client_id/stores
+// Get store_id
+router.get('/:store_id',isLoggedIn,function(req,res) {
+  Store.findById(req.params.store_id, function(err,store) {
+    if (err) {
+      res.render(err);
+    }
+    console.log(store);
+    res.render('store/update_store',{ store: store });
   });
 });
 
 // POST /clients/:client_id/stores
 // Create store for client_id
 router.post('/',isLoggedIn,function(req,res) {
-  BeaconClient.findById(req.params.client_id, function(err,client) {
+  console.log('ENTRA al POST');
+  console.log(req.baseUrl);
+  console.log(client_id);
+  BeaconClient.findById(client_id, function(err,client) {
     var store = new Store();
     store.store_name = req.body.store_name;
     store.major_id = req.body.major_id;
@@ -48,7 +68,7 @@ router.post('/',isLoggedIn,function(req,res) {
       if (err) {
         res.render(err);
       }
-      else res.redirect('/clients/'+req.params.client_id+'/stores');
+      else res.redirect('/clients/'+client_id+'/stores');
     });
   });
 });
@@ -65,7 +85,7 @@ router.put('/:store_id',isLoggedIn,function(req,res) {
       if (err) {
         res.render(err);
       }
-      else res.redirect('/clients/'+req.params.client_id+'/stores');
+      else res.redirect('/clients/'+client_id+'/stores');
     });
   });
 });
@@ -77,7 +97,7 @@ router.delete('/:store_id',isLoggedIn,function(req,res) {
     if (err) {
       res.render(err);
     }
-    res.redirect('/clients/'+req.params.client_id+'/stores');
+    res.redirect('/clients/'+client_id+'/stores');
   });
   /*
   BeaconClient.findById(req.params.client_id, function(err,client) {

@@ -77,7 +77,7 @@ router.put('/:client_id', isLoggedIn, function(req,res) {
       if (err) {
         res.render(err);
       }
-      res.redirect('/client');
+      res.redirect('/clients');
     });
   });
 });

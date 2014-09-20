@@ -7,17 +7,39 @@
   <body>
     <div>
       <h1>Clients</h1>
-      <p></p>
+      <% if (clients.length > 0) { %>
+      <table>
+        <thead><tr><th>Name</th><th>Primary UUID</th><th>Secondary UUID</th><th></th><th></th><th></th></tr></thead>
+        <tbody>
+          <% for(var i=0; i<clients.length; i++) { %>
+            <tr id=<%= clients[i]._id %>>
+              <td><%= clients[i].name %></td>
+              <td><%= clients[i].primary_uuid %></td>
+              <td><%= clients[i].secondary_uuid %></td>
+              <td><a href="/clients/<%= clients[i]._id %>">Update</a></td>
+              <td><a href="/clients/<%= clients[i]._id %>/stores">stores</a></td>
+              <td>
+                <form action='/clients/<%= clients[i]._id%>' method='POST'>
+                  <input name="_method" value="DELETE" type="hidden">
+                  <input type="submit" value="Borrar" />
+                </form>
+              </td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+      <% } %>
     </div>
     <div>
       <h2>Add client</h2>
-      <form id="newClientForm" action="/clients" method="post">
+      <form id="newClientForm" action="/clients" method="POST">
         <label>Name</label>
         <input type="text" placeholder="Name" name="name" required>
         <label>Primary UUID</label>
         <input type="text" placeholder="12312312312-1231-2312-3123-123123123123" name="primary_uuid" pattern="^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$" required>
         <label>Secondary UUID</label>
         <input type="text" placeholder="12312312312-1231-2312-3123-123123123123" name="secondary_uuid" pattern="^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$" required>
+        <input type="submit" value="Add" id='addNewClientButton'/>
       </form>
     <div>
   </body>

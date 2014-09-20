@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Update store</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <div>
+      <h2>Update store</h2>
+      <form id="newClientForm" action="/clients/<%= store.client[0] %>/stores/<%= store._id %>" method="POST">
+        <input name="_method" value="PUT" type="hidden">
+        <label>Name</label>
+        <input type="text" value='<%= store.store_name %>' placeholder="Name" name="store_name" required>
+        <label>Major ID</label>
+        <input type="text" value='<%= store.major_id %>' placeholder="1" name="major_id" required>
+        <label>Locations</label>
+        <input type="text" value='<%= store.location.latitude %>' placeholder="latitude" name="latitude">
+        <input type="text" value='<%= store.location.longitude %>' placeholder="longitude" name="longitude">
+        <input type="submit" value="Update" id='updateStoreButton'/>
+      </form>
+    <div>
+  </body>
+</html>

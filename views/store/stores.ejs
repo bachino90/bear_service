@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Clients</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <div>
+      <h1>Stores</h1>
+      <% if (client.stores.length > 0) { %>
+      <table>
+        <thead><tr><th>Name</th><th>Major ID</th><th>Latitude</th><th>Longitude</th><th></th><th></th><th></th></tr></thead>
+        <tbody>
+          <% for(var i=0; i<client.stores.length; i++) { %>
+            <tr id=<%= client.stores[i]._id %>>
+              <td><%= client.stores[i].store_name %></td>
+              <td><%= client.stores[i].major_id %></td>
+              <td><%= client.stores[i].location.latitude %></td>
+              <td><%= client.stores[i].location.longitude %></td>
+              <td><a href="/clients/<%= client._id%>/stores/<%= client.stores[i]._id%>">Update</a></td>
+              <td><a href="/clients/<%= client._id%>/stores/<%= client.stores[i]._id%>/areas">Areas</a></td>
+              <td>
+                <form action='/clients/<%= client._id%>/stores/<%= client.stores[i]._id%>' method='POST'>
+                  <input name="_method" value="DELETE" type="hidden">
+                  <input type="submit" value="Borrar" />
+                </form>
+              </td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+      <% } %>
+    </div>
+    <div>
+      <h2>Add Store</h2>
+      <form id="newStoreForm" action="/clients/<%= client._id%>/stores" method="POST">
+        <label>Name</label>
+        <input type="text" placeholder="Name" name="store_name" required>
+        <label>Major ID</label>
+        <input type="text" placeholder="1" name="major_id" required>
+        <input type="submit" value="Add" id='addNewStoreButton'/>
+      </form>
+    <div>
+  </body>
+</html>

@@ -34,9 +34,9 @@ app.use(methodOverride()); 				// simulate DELETE and PUT
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-//===============================//
-//====== DB CONFIGURATION =======//
-//===============================//
+//=============================================================================================================//
+//====== DB CONFIGURATION =====================================================================================//
+//=============================================================================================================//
 
 console.log(process.env.MONGOHQ_URL);
 //'mongodb://heroku:-IY7qZns1g-mcGfYpV29JVjwjMmmYu_v5ITVPCW1gPQjCYakIOrrmq7z0lE3PelCJJj3GgCLkohxAB28LzWF5Q@kahana.mongohq.com:10092/app26226186';
@@ -47,12 +47,10 @@ mongoose.connect(mongoUri); // connect to our database
 //====== Controllers CONFIGURATION ============================================================================//
 //=============================================================================================================//
 
-
-
 app.use('/', index);
 app.use('/clients', clientController);
-app.use('/clients/:clientId/stores', storeController);
-app.use('/clients/:clientId/stores/:storeId/areas', areaController);
+app.use('/clients/:client_id/stores', storeController);
+app.use('/clients/:client_id/stores/:store_id/areas', areaController);
 
 //=============================================================================================================//
 //====== Error Handlers CONFIGURATION =========================================================================//
