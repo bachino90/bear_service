@@ -11,8 +11,8 @@
       <table>
         <thead><tr><th>Name</th><th>Minor ID</th><th>Description</th><th></th><th></th></tr></thead>
         <tbody>
-          <% for(var i=0; i<client.stores.length; i++) { %>
-            <tr id=<%= client.stores[i]._id %>>
+          <% for(var i=0; i<store.areas.length; i++) { %>
+            <tr id=<%= store.areas[i]._id %>>
               <td><%= store.areas[i].area_name %></td>
               <td><%= store.areas[i].minor_id %></td>
               <td><%= store.areas[i].description %></td>

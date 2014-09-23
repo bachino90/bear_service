@@ -55,44 +55,33 @@ router.get('/:store_id',isLoggedIn,function(req,res) {
 // POST /clients/:client_id/stores/:store_id/areas
 // Create area for store_id
 router.post('/',isLoggedIn,function(req,res) {
-  Store.findById(store_id, function(err,store) {
+  Store.findOne({"_id":store_id, 'areas.minor_id': req.body.minor_id}, function(err, store) {
     if (err) {
+      console.log(err);
       res.render(err);
     }
-    store.areas.find({ minor_id: req.body.minor_id}, function (err,area) {
-      if (err) {
-        res.render(err);
-      }
-      if (area) {
-        console.log('ya existe');
-        res.redirect('/clients/'+req.params.client_id+'/stores'+req.params.store_id+'/areas');
-      } else {
-        store.areas.push({ area_name: req.body.area_name,
-                           minor_id: req.body.minor_id });
-        store.save(function (err) {
-          if (err) {
-            res.render(err);
-          } else {
-            res.redirect('/clients/'+req.params.client_id+'/stores'+req.params.store_id+'/areas');
-          }
-        });
-      }
-    })
+    if (store) {
+      console.log('YA existe esa area');
+      res.render(err);
+    } else {
+      Store.findById(store_id, function(err,store) {
+        if (err) {
+          console.log(err);
+          res.render(err);
+        } else {
+          store.areas.push({ area_name: req.body.area_name,
+                             minor_id: req.body.minor_id });
+          store.save(function (err) {
+            if (err) {
+              res.render(err);
+            } else {
+              res.redirect('/clients/'+client_id+'/stores/'+store_id+'/areas');
+            }
+          });
+        }
+      });
+    }
   });
-  /*
-  BeaconClient.findById(req.params.client_id, function(err,store) {
-    var store = new Store();
-    store.store_name = req.body.store_name;
-    store.major_id = req.body.major_id;
-    store.client = client._id;
-    store.save(function (err) {
-      if (err) {
-        res.render(err);
-      }
-      else res.redirect('/clients/'+req.params.client_id+'/stores'+req.params.store_id+'/areas');
-    });
-  });
-  */
 });
 
 // PUT /clients/:client_id/stores/:store_id/areas/:area_id
