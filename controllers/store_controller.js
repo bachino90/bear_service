@@ -8,7 +8,7 @@ var router         = express.Router();
 var Store          = require('../models/beacon').Store;
 var Area           = require('../models/beacon').Area;
 var Beacon         = require('../models/beacon').Beacon;
-var BeaconClient   = require('../models/beacon').BeaconClient;
+var Client         = require('../models/beacon').Client;
 var client_id;
 
 // route middleware to make sure a user is logged in
@@ -32,7 +32,7 @@ router.get('/',isLoggedIn,function(req,res) {
   console.log('ENTRA');
   console.log(req.baseUrl);
   console.log(client_id);
-  BeaconClient.findById(client_id).populate('stores').exec(function(err,client) {
+  Client.findById(client_id).populate('stores').exec(function(err,client) {
     if (err) {
       res.render(err);
     }
@@ -56,13 +56,11 @@ router.get('/:store_id',isLoggedIn,function(req,res) {
 // POST /clients/:client_id/stores
 // Create store for client_id
 router.post('/',isLoggedIn,function(req,res) {
-  console.log('ENTRA al POST');
-  console.log(req.baseUrl);
-  console.log(client_id);
-  BeaconClient.findById(client_id, function(err,client) {
+  Client.findById(client_id, function(err,client) {
     var store = new Store();
     store.store_name = req.body.store_name;
     store.major_id = req.body.major_id;
+    store.uuid = client.primary_uuid;
     store.client = client._id;
     store.save(function (err) {
       if (err) {
@@ -78,7 +76,6 @@ router.post('/',isLoggedIn,function(req,res) {
 router.put('/:store_id',isLoggedIn,function(req,res) {
   Store.findById(req.params.store_id, function(err,store) {
     store.store_name = req.body.store_name;
-    store.major_id = req.body.major_id;
     store.location.latitude = req.body.latitude;
     store.location.longitude = req.body.longitude;
     store.save(function (err) {
@@ -99,15 +96,6 @@ router.delete('/:store_id',isLoggedIn,function(req,res) {
     }
     res.redirect('/clients/'+client_id+'/stores');
   });
-  /*
-  BeaconClient.findById(req.params.client_id, function(err,client) {
-    client.stores.id(req.params.store_id).remove();
-    client.save(function (err) {
-      if (err) console.log('Error: '+err);
-      else res.redirect('/clients/'+req.params.client_id);
-    });
-  });
-  */
 });
 
 module.exports = router;

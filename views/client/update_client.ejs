@@ -7,6 +7,7 @@
   <body>
     <div>
       <h2>Update client</h2>
+      <a href='/clients'>< Clients</a>
       <form id="newClientForm" action="/clients/<%= client._id %>" method="POST">
         <input name="_method" value="PUT" type="hidden">
         <label>Name</label>

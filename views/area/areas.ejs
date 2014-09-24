@@ -7,6 +7,7 @@
   <body>
     <div>
       <h1>Areas</h1>
+      <a href='/clients/<%= store.client %>/stores'>< Stores</a>
       <% if (store.areas.length > 0) { %>
       <table>
         <thead><tr><th>Name</th><th>Minor ID</th><th>Description</th><th></th><th></th></tr></thead>
@@ -16,9 +17,9 @@
               <td><%= store.areas[i].area_name %></td>
               <td><%= store.areas[i].minor_id %></td>
               <td><%= store.areas[i].description %></td>
-              <td><a href="/clients/<%= store.client[0]%>/stores/<%= store._id%>/areas/<%= store.areas[i]._id %>">Update</a></td>
+              <td><a href="/clients/<%= store.client%>/stores/<%= store._id%>/areas/<%= store.areas[i]._id %>">Update</a></td>
               <td>
-                <form action='/clients/<%= store.client[0]%>/stores/<%= store._id%>/areas/<%= store.areas[i]._id %>' method='POST'>
+                <form action='/clients/<%= store.client%>/stores/<%= store._id%>/areas/<%= store.areas[i]._id %>' method='POST'>
                   <input name="_method" value="DELETE" type="hidden">
                   <input type="submit" value="Borrar" />
                 </form>
@@ -31,7 +32,7 @@
     </div>
     <div>
       <h2>Add Area</h2>
-      <form id="newStoreForm" action="/clients/<%= store.client[0]%>/stores/<%= store._id%>/areas" method="POST">
+      <form id="newStoreForm" action="/clients/<%= store.client%>/stores/<%= store._id%>/areas" method="POST">
         <label>Name</label>
         <input type="text" placeholder="Name" name="area_name" required>
         <label>Minor ID</label>

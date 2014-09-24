@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Update area</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <div>
+      <h2>Update area</h2>
+      <a href='/clients/<%= store.client %>/stores/<%= store._id %>/areas/'>< Areas</a>
+      <form id="newClientForm" action="/clients/<%= store.client %>/stores/<%= store._id %>/areas/<%= area._id %>" method="POST">
+        <input name="_method" value="PUT" type="hidden">
+        <label>Name</label>
+        <input type="text" value='<%= area.area_name %>' placeholder="Name" name="area_name" required>
+        <label>Minor ID</label>
+        <input type="text" value='<%= area.minor_id %>' placeholder="1" name="minor_id" required>
+        <label>Description</label>
+        <input type="text" value='<%= area.description %>' placeholder="Description" name="description">
+        <input type="submit" value="Update" id='updateAreaButton'/>
+      </form>
+    <div>
+  </body>
+</html>

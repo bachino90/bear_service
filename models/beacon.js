@@ -7,9 +7,9 @@ var mini = [0, 'The value of path `{PATH}` ({VALUE}) is beneath the limit ({MIN}
 var maxi = [65535, 'The value of path `{PATH}` ({VALUE}) is beneath the limit ({MAX}).'];
 var uni = [true, 'Already exist'];
 
-//=====================================//
-//============ Area Model =============//
-//=====================================//
+//===================================================================================================================//
+//============ Area Model ===========================================================================================//
+//===================================================================================================================//
 
 var AreaSchema = new Schema({
 	area_name: { type: String, required: 'Area name is required!'},
@@ -19,13 +19,14 @@ var AreaSchema = new Schema({
 
 module.exports.Area = mongoose.model('Area', AreaSchema);
 
-//=====================================//
-//============ Store Model ============//
-//=====================================//
+//===================================================================================================================//
+//============ Store Model ==========================================================================================//
+//===================================================================================================================//
 
 var StoreSchema = new Schema({
-	client: [{ type: Schema.Types.ObjectId, ref: "BeaconClient", childPath:'stores' }],
+	client: { type: Schema.Types.ObjectId, ref: "Client", childPath:'stores' },
 	store_name: { type: String, required: 'Store name is required!'},
+	uuid: { type:String, required: 'Primary UUID is required!', match: UUIDmatch, uppercase: true },
 	major_id: { type: Number, min: mini, max: maxi,  required: 'Minor ID is required!' },
 	areas: [AreaSchema],
 	location: {
@@ -38,9 +39,9 @@ StoreSchema.plugin(relationship, { relationshipPathName:'client' });
 
 module.exports.Store = mongoose.model('Store', StoreSchema);
 
-//=====================================//
-//=========== Beacon Model ============//
-//=====================================//
+//===================================================================================================================//
+//=========== Beacon Model ==========================================================================================//
+//===================================================================================================================//
 
 var BeaconContentSchema = new Schema ({
 	image_url: { type: String },
@@ -50,14 +51,15 @@ var BeaconContentSchema = new Schema ({
 
 module.exports.BeaconContent = mongoose.model('BeaconContent',BeaconContentSchema);
 
-//=====================================//
-//=========== Beacon Model ============//
-//=====================================//
+//===================================================================================================================//
+//=========== Beacon Model ==========================================================================================//
+//===================================================================================================================//
 
 var BeaconSchema = new Schema({
-	client_name: { type: String },
-	client: [{ type: Schema.Types.ObjectId, ref: "BeaconClient", childPath:'beacons' }],
+	client: [{ type: Schema.Types.ObjectId, ref: "Client", childPath:'beacons' }],
 	uuid: { type: String, required: 'UUID is required!', match: UUIDmatch, uppercase: true },
+	half_uuid: { type: String, uppercase:true},
+	full_uuid: { type: String, unique: uni, uppercase:true},
 	store: {
 		store_name: { type: String, required: 'Store name is required!'},
 		major_id: { type: Number, min: mini, max: maxi,  required: 'Major ID is required!' },
@@ -69,32 +71,32 @@ var BeaconSchema = new Schema({
 	area: {
 		area_name: { type: String, required: 'Area name is required!'},
 		minor_id: { type: Number, min: mini, max: maxi,  required: 'Major ID is required!' },
-		description: { type: String }
 	},
-	full_uuid: { type: String, unique: uni, uppercase:true},
-  content: String
+	content: String
 });
 
 BeaconSchema.pre('save', function(next) {
+	this.half_uuid = this.uuid + this.store.major_id;
 	this.full_uuid = this.uuid + this.store.major_id + this.area.minor_id;
 	next();
 });
 
 BeaconSchema.plugin(relationship, { relationshipPathName:'client' });
 
-module.exports.Beacon = mongoose.model('Beacon', BeaconSchema);
+var Beacon = mongoose.model('Beacon', BeaconSchema);
 
-//=====================================//
-//======== Beacon Client Model ========//
-//=====================================//
+module.exports.Beacon = Beacon;
 
-var BeaconClientSchema = new Schema({
+//===================================================================================================================//
+//======== Beacon Client Model ======================================================================================//
+//===================================================================================================================//
+
+var ClientSchema = new Schema({
 	primary_uuid: { type:String, required: 'Primary UUID is required!', unique: uni, match: UUIDmatch, uppercase: true },
 	secondary_uuid: { type:String, required: 'Secondary UUID is required!', unique: uni, match: UUIDmatch, uppercase: true },
 	name: { type: String, unique: uni },
 	stores: [{ type: Schema.Types.ObjectId, ref: 'Store' }],
-	areas: [AreaSchema],
 	beacons: [{ type: Schema.Types.ObjectId, ref: 'Beacon' }]
 });
 
-module.exports.BeaconClient = mongoose.model('BeaconClient', BeaconClientSchema);
+module.exports.Client = mongoose.model('Client', ClientSchema);

@@ -7,7 +7,8 @@
   <body>
     <div>
       <h2>Update store</h2>
-      <form id="newClientForm" action="/clients/<%= store.client[0] %>/stores/<%= store._id %>" method="POST">
+      <a href='/clients/<%= store.client %>/stores'>< Stores</a>
+      <form id="newClientForm" action="/clients/<%= store.client %>/stores/<%= store._id %>" method="POST">
         <input name="_method" value="PUT" type="hidden">
         <label>Name</label>
         <input type="text" value='<%= store.store_name %>' placeholder="Name" name="store_name" required>

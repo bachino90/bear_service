@@ -87,6 +87,16 @@ app.get('/', function (req, res) {
 
 # ## OTROS COMANDO DE LINEA
 
+### Uso de la linea de comando de MONGO
+
+```
+$ show dbs
+$ use <nombre de la database>
+$ show collections
+$ db.<nombre de una coleccion>.find()
+$ db.dropDatabase()
+```
+
 ### Clonar desde git
 
 ```
