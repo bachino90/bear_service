@@ -68,26 +68,19 @@ module.exports.Client = mongoose.model('Client', ClientSchema);
 //===================================================================================================================//
 
 var AreaSchema = new Schema({
-	store: { type: Schema.Types.ObjectId, ref: '', childPath:'areas' },
+	store: { type: Schema.Types.ObjectId, ref: 'Store', childPath:'areas' },
 	beacon: { type: Schema.Types.ObjectId, ref: 'Beacon' },
 	area_name: { type: String, required: 'Area name is required!'},
 	minor_id: { type: Number, min: mini, max: maxi,  required: 'Major ID is required!' },
 	description: { type: String }
 });
 
+AreaSchema.post('validate', function (doc) {
+  doc.description = "";
+});
+
 AreaSchema.plugin(relationship, { relationshipPathName:'store' });
 
-/*
-AreaSchema.post('remove', function(area) {
-	Beacon.remove({ _id:  area.beacon._id }, function (err) {
-		if (err) {
-			console.log(err);
-		} else {
-			console.log('Beacon removed');
-		}
-	});
-});
-*/
 module.exports.Area = mongoose.model('Area', AreaSchema);
 
 //===================================================================================================================//
@@ -105,6 +98,11 @@ var StoreSchema = new Schema({
 		latitude: {type: Number},
 		longitude: {type: Number}
 	}
+});
+
+StoreSchema.post('validate', function (doc) {
+	doc.location.latitude = 0;
+	doc.location.longitude = 0;
 });
 
 StoreSchema.plugin(relationship, { relationshipPathName:'client' });

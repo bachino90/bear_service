@@ -69,7 +69,7 @@ router.get('/:area_id',isLoggedIn,function(req,res) {
 
 // POST /clients/:client_id/stores/:store_id/areas
 // Create area for store_id
-router.post('/', isLoggedIn, checkAreaUniqueness, function(req,res) {
+router.post('/', isLoggedIn, function(req,res) {
 
   Store.findById(store_id, function(err, store) {
     var area = new Area();
