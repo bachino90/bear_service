@@ -46,6 +46,15 @@ router.get('/:client_id',isLoggedIn, function(req, res) {
   });
 });
 
+router.get('/beacons',isLoggedIn, function(req, res) {
+  Beacon.find(req.params.client_id, function(err, client) {
+    if (err) {
+      res.render(err);
+    }
+    res.render('client/update_client',{ client: client });
+  });
+});
+
 // CREATE
 // POST /clients
 router.post('/', isLoggedIn, function(req,res) {
