@@ -27,7 +27,7 @@ var BeaconSchema = new Schema({
 	client: { type: Schema.Types.ObjectId, ref: "Client", childPath:'beacons' },
 	uuid: { type: String, required: 'UUID is required!', match: UUIDmatch, uppercase: true },
 	major_id: { type: Number, min: mini, max: maxi,  required: 'Major ID is required!' },
-	minor_id: { type: Number, min: mini, max: maxi,  required: 'Major ID is required!' },
+	minor_id: { type: Number, min: mini, max: maxi,  required: 'Minor ID is required!' },
 	half_uuid: { type: String, uppercase:true},
 	full_uuid: { type: String, unique: uni, uppercase:true},
 	store: { type: Schema.Types.ObjectId, ref: "Store", childPath:'beacons' },
@@ -78,14 +78,14 @@ AreaSchema.pre('save', function (next) {
   if (this.description === undefined || this.description == null) {
   	this.description = "";
   }
-	if (this.x === undefined || this.x == null) {
-		this.x = 0;
+	if (this.position.x === undefined || this.position.x == null) {
+		this.position.x = 0;
 	}
-	if (this.y === undefined || this.y == null) {
-		this.y = 0;
+	if (this.position.y === undefined || this.position.y == null) {
+		this.position.y = 0;
 	}
-	if (this.z === undefined || this.z == null) {
-		this.z = 0;
+	if (this.position.z === undefined || this.position.z == null) {
+		this.position.z = 0;
 	}
 	if (this.unique_id === undefined || this.unique_id == null) {
 		this.unique_id = this.store + '-' + this.minor_id;
@@ -107,7 +107,7 @@ var StoreSchema = new Schema({
 	beacons: [{ type: Schema.Types.ObjectId, ref: 'Beacon' }],
 	client: { type: Schema.Types.ObjectId, ref: "Client", childPath:'stores' },
 	store_name: { type: String, required: 'Store name is required!'},
-	uuid: { type:String, required: 'Primary UUID is required!', match: UUIDmatch, uppercase: true },
+	uuid: { type:String, required: 'UUID is required!', match: UUIDmatch, uppercase: true },
 	major_id: { type: Number, min: mini, max: maxi,  required: 'Minor ID is required!' },
 	areas: [{ type: Schema.Types.ObjectId, ref: 'Area' }],
 	location: {
@@ -161,8 +161,7 @@ module.exports.Store = Store;
 //===================================================================================================================//
 
 var ClientSchema = new Schema({
-	primary_uuid: { type:String, required: 'Primary UUID is required!', unique: uni, match: UUIDmatch, uppercase: true },
-	secondary_uuid: { type:String, required: 'Secondary UUID is required!', unique: uni, match: UUIDmatch, uppercase: true },
+	uuid: { type:String, required: 'UUID is required!', unique: uni, match: UUIDmatch, uppercase: true },
 	name: { type: String, unique: uni },
 	stores: [{ type: Schema.Types.ObjectId, ref: 'Store' }],
 	beacons: [{ type: Schema.Types.ObjectId, ref: 'Beacon' }]

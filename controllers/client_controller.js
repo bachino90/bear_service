@@ -37,7 +37,7 @@ router.get('/', isLoggedIn, function(req, res) {
 
 // SHOW ONE
 // GET /clients/:client_id
-router.get('/:client_id',isLoggedIn, function(req, res) {
+router.get('/:client_id', isLoggedIn, function(req, res) {
   Client.findById(req.params.client_id, function(err, client) {
     if (err) {
       res.render(err);
@@ -46,7 +46,7 @@ router.get('/:client_id',isLoggedIn, function(req, res) {
   });
 });
 
-router.get('/beacons',isLoggedIn, function(req, res) {
+router.get('/beacons', isLoggedIn, function(req, res) {
   Beacon.find(req.params.client_id, function(err, client) {
     if (err) {
       res.render(err);
@@ -60,8 +60,7 @@ router.get('/beacons',isLoggedIn, function(req, res) {
 router.post('/', isLoggedIn, function(req,res) {
   var new_client = new Client();
   new_client.name = req.body.name;
-  new_client.primary_uuid = req.body.primary_uuid;
-  new_client.secondary_uuid = req.body.secondary_uuid;
+  new_client.uuid = req.body.uuid;
   new_client.save(function(err) {
     if (err) {
       res.render(err);
@@ -80,8 +79,7 @@ router.put('/:client_id', isLoggedIn, function(req,res) {
       res.render(err);
     }
     client.name = req.body.name;
-    client.mayor_id = req.body.primary_uuid;
-    client.minor_id = req.body.secondary_uuid;
+    client.uuid = req.body.uuid;
     // save the client update
     client.save(function(err) {
       if (err) {
@@ -94,7 +92,7 @@ router.put('/:client_id', isLoggedIn, function(req,res) {
 
 // DELETE
 // DELETE /clients/:client_id
-router.delete('/:client_id',isLoggedIn, function(req, res){
+router.delete('/:client_id', isLoggedIn, function(req, res){
   Client.findOne({ _id:req.params.client_id }, function (err, client) {
     if (err) {
       res.render(err);

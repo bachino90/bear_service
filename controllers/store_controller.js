@@ -26,7 +26,7 @@ function isLoggedIn(req, res, next) {
 
 // GET /clients/:client_id/stores
 // Get all store for client_id
-router.get('/',isLoggedIn,function(req,res) {
+router.get('/', isLoggedIn, function(req,res) {
   Client.findById(client_id).populate('stores').exec(function(err,client) {
     if (err) {
       res.render(err);
@@ -38,7 +38,7 @@ router.get('/',isLoggedIn,function(req,res) {
 
 // GET /clients/:client_id/stores
 // Get store_id
-router.get('/:store_id',isLoggedIn,function(req,res) {
+router.get('/:store_id', isLoggedIn, function(req,res) {
   Store.findById(req.params.store_id, function(err,store) {
     if (err) {
       res.render(err);
@@ -50,12 +50,12 @@ router.get('/:store_id',isLoggedIn,function(req,res) {
 
 // POST /clients/:client_id/stores
 // Create store for client_id
-router.post('/',isLoggedIn,function(req,res) {
+router.post('/', isLoggedIn, function(req,res) {
   Client.findById(client_id, function(err,client) {
     var store = new Store();
     store.store_name = req.body.store_name;
     store.major_id = req.body.major_id;
-    store.uuid = client.primary_uuid;
+    store.uuid = client.uuid;
     store.client = client._id;
     store.save(function (err) {
       if (err) {
@@ -68,7 +68,7 @@ router.post('/',isLoggedIn,function(req,res) {
 
 // PUT /clients/:client_id/stores/:store_id
 // Create store for client_id
-router.put('/:store_id',isLoggedIn,function(req,res) {
+router.put('/:store_id', isLoggedIn, function(req,res) {
   Store.findById(req.params.store_id, function(err,store) {
     store.store_name = req.body.store_name;
     store.location.latitude = req.body.latitude;
@@ -84,7 +84,7 @@ router.put('/:store_id',isLoggedIn,function(req,res) {
 
 // DELETE /clients/:client_id/stores/:store_id
 // Delete store with store_id in client_id
-router.delete('/:store_id',isLoggedIn,function(req,res) {
+router.delete('/:store_id', isLoggedIn, function(req,res) {
   Store.findOne({ _id:req.params.store_id }, function (err, store) {
     if (err) {
       res.render(err);

@@ -46,7 +46,7 @@ function checkAreaUniqueness(req, res, next) {
 
 // GET /clients/:client_id/stores/:store_id/areas
 // Get all area for store_id
-router.get('/',isLoggedIn,function(req,res) {
+router.get('/', isLoggedIn, function(req,res) {
   Store.findById(store_id).populate('areas').exec(function(err,store) {
     if (err) {
       res.render(err);
@@ -57,7 +57,7 @@ router.get('/',isLoggedIn,function(req,res) {
 
 // GET /clients/:client_id/stores/:store_id/areas/:area_id
 // Get area_id
-router.get('/:area_id',isLoggedIn,function(req,res) {
+router.get('/:area_id', isLoggedIn, function(req,res) {
   Area.findById(req.params.area_id).populate('store').exec(function(err,area) {
     if (err) {
       res.render(err);
@@ -119,7 +119,7 @@ router.put('/:area_id', isLoggedIn, function(req,res) {
 
 // DELETE /clients/:client_id/stores/:store_id/areas/:area_id
 // Delete area with area_id in store_id
-router.delete('/:area_id',isLoggedIn,function(req,res) {
+router.delete('/:area_id', isLoggedIn, function(req,res) {
   Area.findOne({ _id:req.params.area_id }, function (err, area) {
     if (err) {
       res.render(err);

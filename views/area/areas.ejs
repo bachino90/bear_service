@@ -10,13 +10,16 @@
       <a href='/clients/<%= store.client %>/stores'>< Stores</a>
       <% if (store.areas.length > 0) { %>
       <table>
-        <thead><tr><th>Name</th><th>Minor ID</th><th>Description</th><th></th><th></th><th></th></tr></thead>
+        <thead><tr><th>Name</th><th>Minor ID</th><th>Description</th><th>x</th><th>y</th><th>z</th><th></th><th></th><th></th></tr></thead>
         <tbody>
           <% for(var i=0; i<store.areas.length; i++) { %>
             <tr id=<%= store.areas[i]._id %>>
               <td><%= store.areas[i].area_name %></td>
               <td><%= store.areas[i].minor_id %></td>
               <td><%= store.areas[i].description %></td>
+              <td><%= store.areas[i].position.x %></td>
+              <td><%= store.areas[i].position.y %></td>
+              <td><%= store.areas[i].position.z %></td>
               <td><a href="/clients/<%= store.client%>/stores/<%= store._id%>/areas/<%= store.areas[i]._id %>">Update</a></td>
               <td><a href="/api/v1/<%= store.areas[i].beacon %>">API CALL</a></td>
               <td>

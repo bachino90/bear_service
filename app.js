@@ -6,6 +6,10 @@ var cookieParser    = require('cookie-parser');
 var bodyParser      = require('body-parser');
 var methodOverride  = require('method-override');
 var mongoose        = require('mongoose');
+var passport        = require('passport');
+var flash           = require('connect-flash');
+var helpers         = require('express-helpers');
+var session         = require('express-session');
 
 var app               = express();
 
@@ -18,7 +22,6 @@ var loginController   = require('./controllers/login_controller');
 
 var apiController     = require('./controllers/api/v1/beacon_api_controller');
 
-
 //=============================================================================================================//
 //====== App CONFIGURATION ====================================================================================//
 //=============================================================================================================//
@@ -26,6 +29,7 @@ var apiController     = require('./controllers/api/v1/beacon_api_controller');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+helpers(app);
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -35,6 +39,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(methodOverride()); 				// simulate DELETE and PUT
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({secret: 'este_es_mi_secreto,sh!!!!'}));
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
 
 //=============================================================================================================//
 //====== DB CONFIGURATION =====================================================================================//

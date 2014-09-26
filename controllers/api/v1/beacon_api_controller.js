@@ -27,11 +27,17 @@ function isLoggedIn(req, res, next) {
 // SHOW ONE
 // GET /api/v1/:client_id
 router.get('/:_id', isLoggedIn, function(req, res) {
-  Beacon.findById(req.params._id).populate('area').populate('area.store').exec(function(err, beacon){
+  Beacon.findById(req.params._id).populate('area').exec(function(err, beacon){
     if (err) {
-      res.json(err);
+      res.json(500);
     } else {
-      res.json(beacon);
+      var options = {
+        path: 'area.store',
+        model: 'Store'
+      };
+      Beacon.populate(beacon, options, function (err, beacon) {
+        res.json(beacon);
+      });
     }
   });
 });
