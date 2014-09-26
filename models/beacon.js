@@ -8,7 +8,7 @@ var maxi = [65535, 'The value of path `{PATH}` ({VALUE}) is beneath the limit ({
 var uni = [true, 'Already exist'];
 
 //===================================================================================================================//
-//=========== Content Model ==========================================================================================//
+//=========== Content Model =========================================================================================//
 //===================================================================================================================//
 
 var BeaconContentSchema = new Schema ({
@@ -36,8 +36,8 @@ var BeaconSchema = new Schema({
 });
 
 BeaconSchema.pre('save', function(next) {
-	this.half_uuid = this.uuid + this.store.major_id;
-	this.full_uuid = this.uuid + this.store.major_id + this.area.minor_id;
+	this.half_uuid = this.uuid + this.major_id;
+	this.full_uuid = this.uuid + this.major_id + this.minor_id;
 	next();
 });
 
@@ -50,20 +50,6 @@ var Beacon = mongoose.model('Beacon', BeaconSchema);
 module.exports.Beacon = Beacon;
 
 //===================================================================================================================//
-//======== Beacon Client Model ======================================================================================//
-//===================================================================================================================//
-
-var ClientSchema = new Schema({
-	primary_uuid: { type:String, required: 'Primary UUID is required!', unique: uni, match: UUIDmatch, uppercase: true },
-	secondary_uuid: { type:String, required: 'Secondary UUID is required!', unique: uni, match: UUIDmatch, uppercase: true },
-	name: { type: String, unique: uni },
-	stores: [{ type: Schema.Types.ObjectId, ref: 'Store' }],
-	beacons: [{ type: Schema.Types.ObjectId, ref: 'Beacon' }]
-});
-
-module.exports.Client = mongoose.model('Client', ClientSchema);
-
-//===================================================================================================================//
 //============ Area Model ===========================================================================================//
 //===================================================================================================================//
 
@@ -72,16 +58,46 @@ var AreaSchema = new Schema({
 	beacon: { type: Schema.Types.ObjectId, ref: 'Beacon' },
 	area_name: { type: String, required: 'Area name is required!'},
 	minor_id: { type: Number, min: mini, max: maxi,  required: 'Major ID is required!' },
-	description: { type: String }
+	description: { type: String },
+	position: {
+		x: { type: Number },
+		y: { type: Number },
+		z: { type: Number }
+	},
+	unique_id: { type: String, unique: uni }
 });
 
-AreaSchema.post('validate', function (doc) {
-  doc.description = "";
+AreaSchema.post('remove', function(doc) {
+	console.log('entra para remover el beacon');
+	console.log('Area: '+doc);
+	Beacon.remove({ _id: doc.beacon }).exec();
+});
+
+AreaSchema.pre('save', function (next) {
+	console.log('entra al pre save');
+  if (this.description === undefined || this.description == null) {
+  	this.description = "";
+  }
+	if (this.x === undefined || this.x == null) {
+		this.x = 0;
+	}
+	if (this.y === undefined || this.y == null) {
+		this.y = 0;
+	}
+	if (this.z === undefined || this.z == null) {
+		this.z = 0;
+	}
+	if (this.unique_id === undefined || this.unique_id == null) {
+		this.unique_id = this.store + '-' + this.minor_id;
+	}
+	next();
 });
 
 AreaSchema.plugin(relationship, { relationshipPathName:'store' });
 
-module.exports.Area = mongoose.model('Area', AreaSchema);
+var Area = mongoose.model('Area', AreaSchema);
+
+module.exports.Area = Area;
 
 //===================================================================================================================//
 //============ Store Model ==========================================================================================//
@@ -95,16 +111,81 @@ var StoreSchema = new Schema({
 	major_id: { type: Number, min: mini, max: maxi,  required: 'Minor ID is required!' },
 	areas: [{ type: Schema.Types.ObjectId, ref: 'Area' }],
 	location: {
-		latitude: {type: Number},
-		longitude: {type: Number}
-	}
+		latitude: { type: Number },
+		longitude: { type: Number }
+	},
+	unique_id: { type: String, unique: uni }
 });
 
-StoreSchema.post('validate', function (doc) {
-	doc.location.latitude = 0;
-	doc.location.longitude = 0;
+StoreSchema.post('remove', function(doc) {
+	console.log('entra para remover las areas');
+	console.log('Store: '+doc);
+	Area.find({ store: doc._id }, function(err, areas) {
+		if (err) {
+			console.log(err);
+		} else {
+			for (var i=0;i<areas.length;i++) {
+				Area.findOne({ _id:areas[i]._id }, function(err, area) {
+					if (err) {
+						console.log(err);
+					} else {
+						area.remove();
+					}
+				});
+			}
+		}
+	});
+});
+
+StoreSchema.pre('save', function (next) {
+	if (this.location.latitude === undefined || this.location.latitude == null) {
+		this.location.latitude = 0;
+	}
+	if (this.location.longitude === undefined || this.location.longitude == null) {
+		this.location.longitude = 0;
+	}
+	if (this.unique_id === undefined || this.unique_id == null) {
+		this.unique_id = this.client + '-' + this.major_id;
+	}
+	next();
 });
 
 StoreSchema.plugin(relationship, { relationshipPathName:'client' });
 
-module.exports.Store = mongoose.model('Store', StoreSchema);
+var Store = mongoose.model('Store', StoreSchema);
+
+module.exports.Store = Store;
+
+//===================================================================================================================//
+//============ Client Model =========================================================================================//
+//===================================================================================================================//
+
+var ClientSchema = new Schema({
+	primary_uuid: { type:String, required: 'Primary UUID is required!', unique: uni, match: UUIDmatch, uppercase: true },
+	secondary_uuid: { type:String, required: 'Secondary UUID is required!', unique: uni, match: UUIDmatch, uppercase: true },
+	name: { type: String, unique: uni },
+	stores: [{ type: Schema.Types.ObjectId, ref: 'Store' }],
+	beacons: [{ type: Schema.Types.ObjectId, ref: 'Beacon' }]
+});
+
+ClientSchema.post('remove', function(doc) {
+	console.log('entra para remover el stores');
+	console.log('Client: '+doc);
+	Store.find({ client: doc._id }, function(err, stores) {
+		if (err) {
+			console.log(err);
+		} else {
+			for (var i=0;i<stores.length;i++) {
+				Store.findOne({ _id:stores[i]._id }, function(err, store) {
+					if (err) {
+						console.log(err);
+					} else {
+						store.remove();
+					}
+				});
+			}
+		}
+	});
+});
+
+module.exports.Client = mongoose.model('Client', ClientSchema);

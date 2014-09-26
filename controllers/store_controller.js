@@ -21,17 +21,12 @@ function isLoggedIn(req, res, next) {
   res.redirect('../');
   */
   client_id = req.baseUrl.split("/")[2];
-  //console.log(client_id);
   return next();
 }
 
 // GET /clients/:client_id/stores
 // Get all store for client_id
 router.get('/',isLoggedIn,function(req,res) {
-  //client_id = req.path.split("/")[1];
-  console.log('ENTRA');
-  console.log(req.baseUrl);
-  console.log(client_id);
   Client.findById(client_id).populate('stores').exec(function(err,client) {
     if (err) {
       res.render(err);
@@ -90,11 +85,18 @@ router.put('/:store_id',isLoggedIn,function(req,res) {
 // DELETE /clients/:client_id/stores/:store_id
 // Delete store with store_id in client_id
 router.delete('/:store_id',isLoggedIn,function(req,res) {
-  Store.remove({ _id: req.params.store_id }, function (err, storeId) {
+  Store.findOne({ _id:req.params.store_id }, function (err, store) {
     if (err) {
       res.render(err);
+    } else {
+      store.remove(function(err) {
+        if (err) {
+          res.render(err);
+        } else {
+          res.redirect('/clients/'+client_id+'/stores');
+        }
+      });
     }
-    res.redirect('/clients/'+client_id+'/stores');
   });
 });
 

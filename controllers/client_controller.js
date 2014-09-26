@@ -95,11 +95,18 @@ router.put('/:client_id', isLoggedIn, function(req,res) {
 // DELETE
 // DELETE /clients/:client_id
 router.delete('/:client_id',isLoggedIn, function(req, res){
-  Client.remove({ _id: req.params.client_id }, function(err, clientId) {
+  Client.findOne({ _id:req.params.client_id }, function (err, client) {
     if (err) {
       res.render(err);
+    } else {
+      client.remove(function(err) {
+        if (err) {
+          res.render(err);
+        } else {
+          res.redirect('/clients');
+        }
+      });
     }
-    res.redirect('/clients');
   });
 });
 

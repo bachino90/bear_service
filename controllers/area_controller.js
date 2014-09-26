@@ -58,7 +58,7 @@ router.get('/',isLoggedIn,function(req,res) {
 // GET /clients/:client_id/stores/:store_id/areas/:area_id
 // Get area_id
 router.get('/:area_id',isLoggedIn,function(req,res) {
-  Area.findById(area_id).populate('store').exec(function(err,area) {
+  Area.findById(req.params.area_id).populate('store').exec(function(err,area) {
     if (err) {
       res.render(err);
     }
@@ -100,43 +100,12 @@ router.post('/', isLoggedIn, function(req,res) {
       }
     });
   });
-  /*
-  Store.findById(store_id, function(err,store) {
-    if (err) {
-      console.log(err);
-      res.render(err);
-    } else {
-      var area = store.areas.push({ area_name: req.body.area_name,
-                                     minor_id: req.body.minor_id });
-      store.save(function (err) {
-        if (err) {
-          res.render(err);
-        } else {
-          var beacon = new Beacon();
-          beacon.uuid = store.uuid;
-          beacon.major_id = store.major_id;
-          beacon.minor_id = req.body.minor_id;
-          beacon.store = store._id;
-          beacon.area = area._id;
-          beacon.client = store.client._id;
-          beacon.save (function (err) {
-            if (err) {
-              res.render(err);
-            } else {
-              res.redirect('/clients/'+client_id+'/stores/'+store_id+'/areas');
-            }
-          });
-        }
-      });
-    }
-  });
-  */
 });
 
 // PUT /clients/:client_id/stores/:store_id/areas/:area_id
 // Update area for store_id
-router.put('/:area_id', isLoggedIn, checkAreaUniqueness, function(req,res) {
-  Area.findById(area_id, function(err,area) {
+router.put('/:area_id', isLoggedIn, function(req,res) {
+  Area.findById(req.params.area_id, function(err,area) {
     area.area_name = req.body.area_name;
     area.description = req.body.description;
     area.save(function (err) {
@@ -151,22 +120,19 @@ router.put('/:area_id', isLoggedIn, checkAreaUniqueness, function(req,res) {
 // DELETE /clients/:client_id/stores/:store_id/areas/:area_id
 // Delete area with area_id in store_id
 router.delete('/:area_id',isLoggedIn,function(req,res) {
-  Area.remove({ _id: req.params.area_id }, function (err, area_id) {
+  Area.findOne({ _id:req.params.area_id }, function (err, area) {
     if (err) {
       res.render(err);
+    } else {
+      area.remove(function(err) {
+        if (err) {
+          res.render(err);
+        } else {
+          res.redirect('/clients/'+client_id+'/stores/'+store_id+'/areas');
+        }
+      });
     }
-    else res.redirect('/clients/'+client_id+'/stores/'+store_id+'/areas');
   });
-  /*
-  Store.findById(store_id, function(err,store) {
-    store.areas.id(req.params.area_id).remove();
-    store.save(function (err) {
-      if (err) console.log('Error: '+err);
-      res.redirect('/clients/'+client_id+'/stores/'+store_id+'/areas');
-    });
-  });
-  */
 });
-
 
 module.exports = router;

@@ -16,6 +16,8 @@ var areaController    = require('./controllers/area_controller');
 var beaconController  = require('./controllers/beacon_controller');
 var loginController   = require('./controllers/login_controller');
 
+var apiController     = require('./controllers/api/v1/beacon_api_controller');
+
 
 //=============================================================================================================//
 //====== App CONFIGURATION ====================================================================================//
@@ -51,6 +53,8 @@ app.use('/', index);
 app.use('/clients', clientController);
 app.use('/clients/:client_id/stores', storeController);
 app.use('/clients/:client_id/stores/:store_id/areas', areaController);
+
+app.use('/api/v1',apiController);
 
 //=============================================================================================================//
 //====== Error Handlers CONFIGURATION =========================================================================//
