@@ -1,6 +1,8 @@
-var mongoose     = require('mongoose');
-var Schema       = mongoose.Schema;
-var relationship = require('mongoose-relationship');
+var mongoose     		= require('mongoose');
+var Schema       		= mongoose.Schema;
+var relationship 		= require('mongoose-relationship');
+
+var uniqueValidator = require('mongoose-unique-validator');
 
 var UUIDmatch = [ /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/, "Invalid UUID format" ];
 var mini = [0, 'The value of path `{PATH}` ({VALUE}) is beneath the limit ({MIN}).'];
@@ -35,12 +37,14 @@ var BeaconSchema = new Schema({
 	content: String
 });
 
-BeaconSchema.pre('save', function(next) {
+BeaconSchema.pre('validate', function(next) {
 	this.half_uuid = this.uuid + this.major_id;
 	this.full_uuid = this.uuid + this.major_id + this.minor_id;
 	next();
 });
 
+BeaconSchema.path('full_uuid').index({ unique: true });
+BeaconSchema.plugin(uniqueValidator, { message: 'Beacon, {VALUE}, already exist' });
 BeaconSchema.plugin(relationship, { relationshipPathName:'client' });
 BeaconSchema.plugin(relationship, { relationshipPathName:'store' });
 BeaconSchema.plugin(relationship, { relationshipPathName:'area' });
@@ -73,7 +77,7 @@ AreaSchema.post('remove', function(doc) {
 	Beacon.remove({ _id: doc.beacon }).exec();
 });
 
-AreaSchema.pre('save', function (next) {
+AreaSchema.pre('validate', function (next) {
 	console.log('entra al pre save');
   if (this.description === undefined || this.description == null) {
   	this.description = "";
@@ -93,6 +97,8 @@ AreaSchema.pre('save', function (next) {
 	next();
 });
 
+AreaSchema.path('unique_id').index({ unique: true });
+AreaSchema.plugin(uniqueValidator, { message: 'Minor ID already exist' });
 AreaSchema.plugin(relationship, { relationshipPathName:'store' });
 
 var Area = mongoose.model('Area', AreaSchema);
@@ -137,7 +143,7 @@ StoreSchema.post('remove', function(doc) {
 	});
 });
 
-StoreSchema.pre('save', function (next) {
+StoreSchema.pre('validate', function (next) {
 	if (this.location.latitude === undefined || this.location.latitude == null) {
 		this.location.latitude = 0;
 	}
@@ -150,6 +156,8 @@ StoreSchema.pre('save', function (next) {
 	next();
 });
 
+StoreSchema.path('unique_id').index({ unique: true });
+StoreSchema.plugin(uniqueValidator, { message: 'Major ID already exist' });
 StoreSchema.plugin(relationship, { relationshipPathName:'client' });
 
 var Store = mongoose.model('Store', StoreSchema);
@@ -186,5 +194,9 @@ ClientSchema.post('remove', function(doc) {
 		}
 	});
 });
+
+ClientSchema.path('uuid').index({ unique: true });
+ClientSchema.path('name').index({ unique: true });
+ClientSchema.plugin(uniqueValidator, { message: '{VALUE} already exist' });
 
 module.exports.Client = mongoose.model('Client', ClientSchema);

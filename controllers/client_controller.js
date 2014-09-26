@@ -63,6 +63,7 @@ router.post('/', isLoggedIn, function(req,res) {
   new_client.uuid = req.body.uuid;
   new_client.save(function(err) {
     if (err) {
+      console.log(err);
       res.render(err);
     } else {
       res.redirect('/clients');
