@@ -108,6 +108,9 @@ router.put('/:area_id', isLoggedIn, function(req,res) {
   Area.findById(req.params.area_id, function(err,area) {
     area.area_name = req.body.area_name;
     area.description = req.body.description;
+    area.position.x = req.body.x;
+    area.position.y = req.body.y;
+    area.position.z = req.body.z;
     area.save(function (err) {
       if (err) {
         res.render(err);

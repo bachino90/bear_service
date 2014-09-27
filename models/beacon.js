@@ -200,3 +200,33 @@ ClientSchema.path('name').index({ unique: true });
 ClientSchema.plugin(uniqueValidator, { message: '{VALUE} already exist' });
 
 module.exports.Client = mongoose.model('Client', ClientSchema);
+
+//===================================================================================================================//
+//============ Beacon Request Model =================================================================================//
+//===================================================================================================================//
+
+var os = 'ANDROID IOS WP'.split(' ')
+
+var BeaconRequestSchema = new Schema({
+	beacon_user: { type: Schema.Types.ObjectId, ref: 'BeaconUser' },
+	device_os: { type:String, enum:os },
+	device_uuid: { type:String },
+	client: { type: Schema.Types.ObjectId, ref: 'Client' },
+	beacons: [{ type: Schema.Types.ObjectId, ref: 'Beacon' }],
+	beacons_rssi: [{
+		full_id: { type:String },
+		rssi: { type:Number }
+	}]
+});
+
+module.exports.BeaconRequest = mongoose.model('BeaconRequest', BeaconRequestSchema);
+
+//===================================================================================================================//
+//============ Beacon User Model =================================================================================//
+//===================================================================================================================//
+
+var BeaconUserSchema = new Schema({
+
+});
+
+module.exports.BeaconUser = mongoose.model('BeaconUser', BeaconUserSchema);

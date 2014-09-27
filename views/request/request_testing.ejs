@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Request Testing</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="/javascript/jquery-1.11.1.min.js"></script>
+    <script src="/javascript/request/request.js"></script>
+  </head>
+  <body>
+    <div>
+      <h2>Request Testing</h2>
+      <form id="newClientForm" action="" method="POST">
+        <input name="_method" value="PUT" type="hidden">
+        <label>URL (api/v1/)</label>
+        <input type="text" placeholder="API URL" name="url" required>
+        </br>
+        <label>Device OS</label>
+        <input type="text" placeholder="" name="device_os" required>
+        </br>
+        <label>Device UUID</label>
+        <input type="text" placeholder="" name="device_uuid" required>
+        </br>
+        <label>Beacons</label>
+        </br>
+        <div id='beacons'>
+          <div class='beacon'>
+            <input type='text' placeholder='FULL ID' name='full_uuid' required>
+            <input type='text' placeholder='RSSI' name='rssi' required>
+          </div>
+          </br>
+        </div>
+        <input type="button" value="Add Beacon" id='addBeaconButton'>
+        </br>
+        <input type="button" value="Send" id='sendButton'/>
+      </form>
+    <div>
+    <div id='response'>
+    </div>
+  </body>
+</html>

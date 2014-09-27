@@ -15,9 +15,9 @@
         <label>Minor ID</label>
         <input type="text" value='<%= area.minor_id %>' placeholder="1" name="minor_id" required>
         <label>Position</label>
-        <input type="text" value='<%= area.x %>' placeholder="x" name="x" required>
-        <input type="text" value='<%= area.y %>' placeholder="y" name="y" required>
-        <input type="text" value='<%= area.z %>' placeholder="z" name="z" required>
+        <input type="text" value='<%= area.position.x %>' placeholder="x" name="x" required>
+        <input type="text" value='<%= area.position.y %>' placeholder="y" name="y" required>
+        <input type="text" value='<%= area.position.z %>' placeholder="z" name="z" required>
         <label>Description</label>
         <input type="text" value='<%= area.description %>' placeholder="Description" name="description">
         <input type="submit" value="Update" id='updateAreaButton'/>
