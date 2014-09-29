@@ -5,9 +5,6 @@ $(document).ready(function() {
 
   $('#addBeaconButton').click(function (){
     $('#beacons').append("<div class='beacon'><input type='text' placeholder='FULL ID' value='11111111-1111-1111-1111-111111111111' name='full_uuid' id='full_uuid'><input type='text' placeholder='RSSI' value='-75' name='rssi' id='rssi'><input type='button' value='Delete Beacon' id='deleteBeaconButton'></br></div>");
-    $('#deleteBeaconButton').click(function (){
-      $(this).parent().remove();
-    });
   });
 
   $('#sendButton').click(function (){
