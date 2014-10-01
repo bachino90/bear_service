@@ -42,19 +42,31 @@ router.get('/:_id', isLoggedIn, function(req, res) {
 });
 
 router.post('/', isLoggedIn, function(req, res) {
-
-  Beacon.find({ full_id:req.body.full_id }).populate('content').exec(function(err, beacons){
+  console.log('Raw text:');
+  console.log(req.body);
+  var data = JSON.parse(req.body.data)
+  console.log('JSON data:');
+  console.log(data);
+  Beacon.find({ 'full_uuid':{ $in:data.uuids } }).populate('content').exec(function(err, beacons){
     if (err) {
       res.json(err);
     } else {
-      var new_request = new BeaconRequest();
-      new_request.device_os = req.body.device_os;
-      new_request.device_uuid = req.body.device_uuid;
-      new_request.client = beacons[0].client;
-      new_request.beacons = beacons;
-      new_request.beacons_rssi = req.body.beacons_rssi;
-      //new_request.beacon_user =
-      res.json(beacons[0].content);
+      console.log('Beacons encontrados');
+      console.log(beacons);
+      var content = new Array();
+      for (var i=0; i<beacons.length; i++) {
+        var new_request = new BeaconRequest();
+        new_request.device_os = data.device_os;
+        new_request.device_uuid = data.device_uuid;
+        //new_request.client = beacons[i].client;
+        new_request.beacons = beacons[i]._id;
+        new_request.beacons_rssi = data.beacons[data.uuids.indexOf(beacons[i].full_uuid)].rssi;
+        //new_request.beacon_user =
+        new_request.save();
+        content[i] = beacons.content;
+      }
+
+      res.json(beacons);
     }
   });
 });

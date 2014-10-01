@@ -38,8 +38,8 @@ var BeaconSchema = new Schema({
 });
 
 BeaconSchema.pre('validate', function(next) {
-	this.half_uuid = this.uuid + this.major_id;
-	this.full_uuid = this.uuid + this.major_id + this.minor_id;
+	this.half_uuid = this.uuid + "-" + this.major_id;
+	this.full_uuid = this.uuid + "-" + this.major_id + "-" + this.minor_id;
 	next();
 });
 
@@ -212,11 +212,8 @@ var BeaconRequestSchema = new Schema({
 	device_os: { type:String, enum:os },
 	device_uuid: { type:String },
 	client: { type: Schema.Types.ObjectId, ref: 'Client' },
-	beacons: [{ type: Schema.Types.ObjectId, ref: 'Beacon' }],
-	beacons_rssi: [{
-		full_id: { type:String },
-		rssi: { type:Number }
-	}]
+	beacons: { type: Schema.Types.ObjectId, ref: 'Beacon' },
+	beacons_rssi: { type: Number }
 });
 
 module.exports.BeaconRequest = mongoose.model('BeaconRequest', BeaconRequestSchema);
