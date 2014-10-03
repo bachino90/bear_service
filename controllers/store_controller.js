@@ -101,8 +101,12 @@ router.put('/:store_id/layout', isLoggedIn, function(req,res) {
     if (err) {
       res.render(err);
     }
+    console.log('LAYOUT raw text');
     console.log(req.body);
-    store.layout = req.body.layout;
+    var layout = JSON.parse(req.body.layout);
+    console.log('LAYOUT json');
+    console.log(layout);
+    store.layout = layout;
     store.save(function (err){
       res.json(store.layout);
     })

@@ -192,6 +192,9 @@ StoreSchema.pre('validate', function (next) {
 	if (this.unique_id === undefined || this.unique_id == null) {
 		this.unique_id = this.client + '-' + this.major_id;
 	}
+	if (this.layout === undefined || this.layout == null) {
+		this.layout = [{x:0,y:0},{x:0,y:10},{x:10,y:10},{x:10,y:0},{x:0,y:0}];
+	}
 	next();
 });
 

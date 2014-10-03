@@ -9,7 +9,7 @@
   <body>
     <div>
       <h2>Layout</h2>
-      <a href='/stores'>Stores</a>
+      <a href='/clients/<%= store.client %>/stores/<%= store._id %>/'>Stores</a>
       <div>
         <label>Corners</label>
         </br>
@@ -17,10 +17,15 @@
         </div>
         <input type="button" value="Add Corner" id='addCornerButton'>
         </br>
+        </br>
+        <input type="button" value="Generate view" id='generateView'>
+        <div id='layout'>
+          <canvas id="canvas_layout" width="200" height="200" style="border:1px solid #000000;">
+          </canvas>
+        </div>
+        </br>
         <input type="button" value="Send" id='sendButton'>
       </div>
     <div>
-    <div id='layout'>
-    </div>
   </body>
 </html>

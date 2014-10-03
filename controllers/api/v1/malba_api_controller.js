@@ -44,7 +44,7 @@ router.get('/:_id', isLoggedIn, function(req, res) {
 router.post('/', isLoggedIn, function(req, res) {
   console.log('Raw text:');
   console.log(req.body);
-  var data = JSON.parse(req.body.data)
+  var data = JSON.parse(req.body.data);
   console.log('JSON data:');
   console.log(data);
   Beacon.find({ 'full_uuid':{ $in:data.uuids } }, function(err, beacons){

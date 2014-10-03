@@ -20,6 +20,8 @@
         <input type="text" value='<%= store.location.latitude %>' placeholder="latitude" name="latitude">
         <input type="text" value='<%= store.location.longitude %>' placeholder="longitude" name="longitude">
         </br>
+        <a href="/clients/<%= store.client %>/stores/<%= store._id %>/layout">Layout</a>
+        </br>
         <input type="submit" value="Update" id='updateStoreButton'/>
       </form>
     <div>
