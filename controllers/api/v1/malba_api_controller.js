@@ -47,7 +47,7 @@ router.post('/', isLoggedIn, function(req, res) {
   var data = JSON.parse(req.body.data)
   console.log('JSON data:');
   console.log(data);
-  Beacon.find({ 'full_uuid':{ $in:data.uuids } }).populate('content').exec(function(err, beacons){
+  Beacon.find({ 'full_uuid':{ $in:data.uuids } }, function(err, beacons){
     if (err) {
       res.json(err);
     } else {
@@ -63,10 +63,10 @@ router.post('/', isLoggedIn, function(req, res) {
         new_request.beacons_rssi = data.beacons[data.uuids.indexOf(beacons[i].full_uuid)].rssi;
         //new_request.beacon_user =
         new_request.save();
-        content[i] = beacons.content;
+        content[i] = beacons[i].content;
       }
 
-      res.json(beacons);
+      res.json(content);
     }
   });
 });

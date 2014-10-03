@@ -12,14 +12,18 @@
         <input name="_method" value="PUT" type="hidden">
         <label>Name</label>
         <input type="text" value='<%= area.area_name %>' placeholder="Name" name="area_name" required>
+        </br>
         <label>Minor ID</label>
         <input type="text" value='<%= area.minor_id %>' placeholder="1" name="minor_id" required>
+        </br>
         <label>Position</label>
         <input type="text" value='<%= area.position.x %>' placeholder="x" name="x" required>
         <input type="text" value='<%= area.position.y %>' placeholder="y" name="y" required>
         <input type="text" value='<%= area.position.z %>' placeholder="z" name="z" required>
+        </br>
         <label>Description</label>
         <input type="text" value='<%= area.description %>' placeholder="Description" name="description">
+        </br>
         <input type="submit" value="Update" id='updateAreaButton'/>
       </form>
     <div>

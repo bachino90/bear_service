@@ -36,7 +36,7 @@ router.get('/', isLoggedIn, function(req,res) {
   });
 });
 
-// GET /clients/:client_id/stores
+// GET /clients/:client_id/stores/:store_id
 // Get store_id
 router.get('/:store_id', isLoggedIn, function(req,res) {
   Store.findById(req.params.store_id, function(err,store) {
@@ -45,6 +45,18 @@ router.get('/:store_id', isLoggedIn, function(req,res) {
     }
     console.log(store);
     res.render('store/update_store',{ store: store });
+  });
+});
+
+// GET /clients/:client_id/stores/:store_id/layout
+// Get store_id
+router.get('/:store_id/layout', isLoggedIn, function(req,res) {
+  Store.findById(req.params.store_id, function(err,store) {
+    if (err) {
+      res.render(err);
+    }
+    console.log(store);
+    res.render('store/update_store_layout',{ store: store });
   });
 });
 
@@ -81,6 +93,22 @@ router.put('/:store_id', isLoggedIn, function(req,res) {
     });
   });
 });
+
+// PUT /clients/:client_id/stores/:store_id/layout
+// Update store_id layout
+router.put('/:store_id/layout', isLoggedIn, function(req,res) {
+  Store.findById(req.params.store_id, function(err,store) {
+    if (err) {
+      res.render(err);
+    }
+    console.log(req.body);
+    store.layout = req.body.layout;
+    store.save(function (err){
+      res.json(store.layout);
+    })
+  });
+});
+
 
 // DELETE /clients/:client_id/stores/:store_id
 // Delete store with store_id in client_id

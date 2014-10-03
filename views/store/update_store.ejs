@@ -12,11 +12,14 @@
         <input name="_method" value="PUT" type="hidden">
         <label>Name</label>
         <input type="text" value='<%= store.store_name %>' placeholder="Name" name="store_name" required>
+        </br>
         <label>Major ID</label>
         <input type="text" value='<%= store.major_id %>' placeholder="1" name="major_id" required>
+        </br>
         <label>Locations</label>
         <input type="text" value='<%= store.location.latitude %>' placeholder="latitude" name="latitude">
         <input type="text" value='<%= store.location.longitude %>' placeholder="longitude" name="longitude">
+        </br>
         <input type="submit" value="Update" id='updateStoreButton'/>
       </form>
     <div>

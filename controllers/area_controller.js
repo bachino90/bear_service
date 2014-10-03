@@ -77,7 +77,7 @@ router.post('/', isLoggedIn, function(req,res) {
     area.minor_id = req.body.minor_id;
     area.major_id = store.major_id;
     area.uuid = store.uuid;
-    area.store = store.id;
+    area.store = store._id;
     area.save(function(err) {
       if (err) {
         res.render(err);

@@ -5,7 +5,7 @@ var relationship 		= require('mongoose-relationship');
 var uniqueValidator = require('mongoose-unique-validator');
 
 var UUIDmatch = [ /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/, "Invalid UUID format" ];
-var mini = [0, 'The value of path `{PATH}` ({VALUE}) is beneath the limit ({MIN}).'];
+var mini = [1, 'The value of path `{PATH}` ({VALUE}) is beneath the limit ({MIN}).'];
 var maxi = [65535, 'The value of path `{PATH}` ({VALUE}) is beneath the limit ({MAX}).'];
 var uni = [true, 'Already exist'];
 
@@ -16,10 +16,16 @@ var uni = [true, 'Already exist'];
 var BeaconContentSchema = new Schema ({
 	image_url: { type: String },
 	web_url: { type: String },
-	text: { type: String }
+	video_url: { type: String },
+	audio_url: { type: String },
+	audio_streaming_url: { type: String },
+	video_streaming_url: { type: String },
+	info_text: { type: String }
 });
 
-module.exports.BeaconContent = mongoose.model('BeaconContent',BeaconContentSchema);
+var BeaconContent = mongoose.model('BeaconContent',BeaconContentSchema);
+
+module.exports.BeaconContent = BeaconContent;
 
 //===================================================================================================================//
 //=========== Beacon Model ==========================================================================================//
@@ -34,12 +40,41 @@ var BeaconSchema = new Schema({
 	full_uuid: { type: String, unique: uni, uppercase:true},
 	store: { type: Schema.Types.ObjectId, ref: "Store", childPath:'beacons' },
 	area: { type: Schema.Types.ObjectId, ref: "Area", childPath:'beacon' },
-	content: String
+	content: {
+		image_url: { type: String },
+		web_url: { type: String },
+		video_url: { type: String },
+		audio_url: { type: String },
+		audio_streaming_url: { type: String },
+		video_streaming_url: { type: String },
+		info_text: { type: String }
+	}
 });
 
 BeaconSchema.pre('validate', function(next) {
 	this.half_uuid = this.uuid + "-" + this.major_id;
 	this.full_uuid = this.uuid + "-" + this.major_id + "-" + this.minor_id;
+	if (this.content.image_url === undefined || this.content.image_url == null) {
+		this.content.image_url = "";
+	}
+	if (this.content.web_url === undefined || this.content.web_url == null) {
+		this.content.web_url = "";
+	}
+	if (this.content.video_url === undefined || this.content.video_url == null) {
+		this.content.video_url = "";
+	}
+	if (this.content.audio_url === undefined || this.content.audio_url == null) {
+		this.content.audio_url = "";
+	}
+	if (this.content.audio_streaming_url === undefined || this.content.audio_streaming_url == null) {
+		this.content.audio_streaming_url = "";
+	}
+	if (this.content.video_streaming_url === undefined || this.content.video_streaming_url == null) {
+		this.content.video_streaming_url = "";
+	}
+	if (this.content.info_text === undefined || this.content.info_text == null) {
+		this.content.info_text = "";
+	}
 	next();
 });
 
@@ -120,6 +155,10 @@ var StoreSchema = new Schema({
 		latitude: { type: Number },
 		longitude: { type: Number }
 	},
+	layout: [{
+		x: { type:Number },
+		y: { type:Number }
+	}],
 	unique_id: { type: String, unique: uni }
 });
 

@@ -3,10 +3,13 @@
   <head>
     <title>Request Testing</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
-    <script src="/javascripts/jquery-1.11.1.min.js"></script>
+    <script src="/javascripts/jquery/jquery-1.11.1.min.js"></script>
     <script src="/javascripts/request/request.js"></script>
+
+    <link href="/javascripts/google-code-prettify/prettify.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="/javascripts/google-code-prettify/prettify.js"></script>
   </head>
-  <body>
+  <body onload="prettyPrint()">
     <div>
       <h2>Request Testing</h2>
       <a href='/clients'>Clients</a>
@@ -30,8 +33,8 @@
       </form>
     <div>
     <div id='response'>
-      <code>
-      </code>
+        <code class="prettyprint linenums">
+        </code>
     </div>
   </body>
 </html>
