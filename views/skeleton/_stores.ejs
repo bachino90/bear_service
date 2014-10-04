@@ -1,0 +1,16 @@
+<div class="row">
+  <% if (client.stores) { %>
+  <% for (var i=0;i<client.stores.length;i++) { %>
+    <a href='/clients/<%= client._id%>/stores/<%= client.stores[i]._id%>/areas'>
+    <div class="col-lg-3 col-md-3 col-sm-3 mb">
+      <div>
+        <div><h1><%= client.stores[i].store_name %></h1></div>
+        <div><h1><%= client.stores[i].major_id %></h1></div>
+        <div><h1><%= client.stores[i].location.latitude %></h1></div>
+        <div><h1><%= client.stores[i].location.longitude %></h1></div>
+      </div>
+    </div>
+    </a>
+  <% } %>
+  <% } %>
+</div>

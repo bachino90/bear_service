@@ -1,0 +1,12 @@
+<div class="row">
+  <div class="col-lg-12">
+    <h2>Add Store</h2>
+    <form id="newStoreForm" action="/clients/<%= client._id%>/stores" method="POST">
+      <label>Name</label>
+      <input type="text" placeholder="Name" name="store_name" required>
+      <label>Major ID</label>
+      <input type="text" placeholder="1" name="major_id" required>
+      <input type="submit" value="Add" id='addNewStoreButton'/>
+    </form>
+  </div>
+</div>

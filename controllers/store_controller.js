@@ -32,7 +32,7 @@ router.get('/', isLoggedIn, function(req,res) {
       res.render(err);
     }
     //console.log(req.route);
-    res.render('store/stores',{ client: client });
+    res.render('skeleton/stores',{ client: client });
   });
 });
 

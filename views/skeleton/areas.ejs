@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <% include _header %>
+  <body>
+    <div id='wrapper'>
+      <% include _navbar %>
+      <div id='page-wrapper'>
+        <div class='container-fluid'>
+          <!-- Page Heading -->
+          <div class="row">
+            <div class="col-lg-12">
+              <h1 class="page-header"><%= store.store_name %> <small><%= store.areas.length %> areas</small></h1>
+              <ol class="breadcrumb">
+                <li><i class="fa fa-dashboard"></i><a href='/clients/<%= store.client %>/stores'> Stores</a></li>
+                <li class="active"><i class="fa fa-dashboard"></i> Areas</li>
+              </ol>
+            </div>
+          </div>
+          <!-- /.row -->
+          <% include _add_area %>
+          <% include _areas %>
+        </div>
+      </div>
+    </div>
+    <% include _bottom_js %>
+  </body>
+</html>

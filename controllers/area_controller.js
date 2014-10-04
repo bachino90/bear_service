@@ -27,23 +27,6 @@ function isLoggedIn(req, res, next) {
   return next();
 }
 
-
-function checkAreaUniqueness(req, res, next) {
-  Store.findOne({"_id":store_id, 'areas.minor_id': req.body.minor_id}, function(err, store) {
-    if (err) {
-      console.log(err);
-      res.render(err);
-    }
-    if (store) {
-      console.log('YA existe esa area');
-      res.redirect('/clients/'+client_id+'/stores/'+store_id+'/areas');
-    } else {
-      next();
-    }
-  });
-}
-
-
 // GET /clients/:client_id/stores/:store_id/areas
 // Get all area for store_id
 router.get('/', isLoggedIn, function(req,res) {
@@ -51,7 +34,7 @@ router.get('/', isLoggedIn, function(req,res) {
     if (err) {
       res.render(err);
     }
-    res.render('area/areas',{ store: store });
+    res.render('skeleton/areas',{ store: store });
   });
 });
 
