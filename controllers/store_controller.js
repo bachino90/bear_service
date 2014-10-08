@@ -44,7 +44,7 @@ router.get('/:store_id', isLoggedIn, function(req,res) {
       res.render(err);
     }
     console.log(store);
-    res.render('store/update_store',{ store: store });
+    res.render('skeleton/update_store',{ store: store });
   });
 });
 

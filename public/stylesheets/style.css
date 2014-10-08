@@ -222,3 +222,73 @@ ul.alert-dropdown {
 .panel-yellow a:hover {
     color: #df8a13;
 }
+
+
+
+
+
+
+
+
+/* unvisited link */
+a:link {
+    color: #FFFFFF;
+    text-decoration: none
+}
+
+/* visited link */
+a:visited {
+    color: #FFFFFF;
+    text-decoration: none
+}
+
+/* mouse over link */
+a:hover {
+    color: #FFFFFF;
+    text-decoration: none
+}
+
+/* selected link */
+a:active {
+    color: #FFFFFF;
+    text-decoration: none
+}
+
+
+.modal-content {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    -ms-border-radius: 0;
+    -o-border-radius: 0;
+    border-radius: 0
+}
+
+.store {
+    margin-bottom: 20px;
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+
+.store-title {
+  padding: 10px 15px 10px 15px;
+  color: white
+}
+
+.store-body {
+  padding: 5px 15px 0px 15px;
+  color: #6e6e6e
+}
+
+.bg-dark-gray {
+    background:#39393d!important
+}
+
+.text-center {
+    text-align:center
+}
+
+.logo {
+  width: 110px;
+  height: 110px;
+  float: left;
+  margin-right: 12px;
+}

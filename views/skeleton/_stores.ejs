@@ -1,16 +1,24 @@
 <div class="row">
   <% if (client.stores) { %>
-  <% for (var i=0;i<client.stores.length;i++) { %>
-    <a href='/clients/<%= client._id%>/stores/<%= client.stores[i]._id%>/areas'>
+    <% for (var i=0;i<client.stores.length;i++) { %>
     <div class="col-lg-3 col-md-3 col-sm-3 mb">
-      <div>
-        <div><h1><%= client.stores[i].store_name %></h1></div>
-        <div><h1><%= client.stores[i].major_id %></h1></div>
-        <div><h1><%= client.stores[i].location.latitude %></h1></div>
-        <div><h1><%= client.stores[i].location.longitude %></h1></div>
+      <div class='store text-center'>
+        <a href="/clients/<%= client._id%>/stores/<%= client.stores[i]._id%>/areas">
+          <div class='store-title bg-dark-gray'>
+            <div><%= client.stores[i].store_name %></div>
+            <div>Major ID: <%= client.stores[i].major_id %></div>
+          </div>
+          <div class='store-body'>
+            <div><%= client.stores[i].areas.length %> area</div>
+            <div>Lat: <%= client.stores[i].location.latitude %></div>
+            <div>Long: <%= client.stores[i].location.longitude %></div>
+            <!--
+            <div><a href='/clients/<%= client._id%>/stores/<%= client.stores[i]._id%>'>Update</a></div>
+            -->
+          </div>
+        </a>
       </div>
     </div>
-    </a>
-  <% } %>
+    <% } %>
   <% } %>
 </div>

@@ -8,8 +8,20 @@
         <div class='container-fluid'>
           <!-- Page Heading -->
           <div class="row">
+            <div class="col-md-4">
+              <div class='panel-heading'>
+                <img src="http://images.media-allrecipes.com/userphotos/140x140/00/94/91/949139.jpg" alt="" class="img-circle logo">
+                <div class="">
+                  <h2><%= store.store_name %> <small><%= store.areas.length %> areas</small></h2>
+                  <p><%= store.uuid %></p>
+                  <p><%= store.major_id %></p>
+                  <button id='addAreaButton'>Add Area</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
             <div class="col-lg-12">
-              <h1 class="page-header"><%= store.store_name %> <small><%= store.areas.length %> areas</small></h1>
               <ol class="breadcrumb">
                 <li><i class="fa fa-dashboard"></i><a href='/clients/<%= store.client %>/stores'> Stores</a></li>
                 <li class="active"><i class="fa fa-dashboard"></i> Areas</li>
@@ -23,5 +35,6 @@
       </div>
     </div>
     <% include _bottom_js %>
+    <script src="/javascripts/area.js"></script>
   </body>
 </html>

@@ -93,6 +93,7 @@ module.exports.Beacon = Beacon;
 //===================================================================================================================//
 
 var AreaSchema = new Schema({
+	image: { type:String },
 	store: { type: Schema.Types.ObjectId, ref: 'Store', childPath:'areas' },
 	beacon: { type: Schema.Types.ObjectId, ref: 'Beacon' },
 	area_name: { type: String, required: 'Area name is required!'},
@@ -145,6 +146,7 @@ module.exports.Area = Area;
 //===================================================================================================================//
 
 var StoreSchema = new Schema({
+	image: { type:String },
 	beacons: [{ type: Schema.Types.ObjectId, ref: 'Beacon' }],
 	client: { type: Schema.Types.ObjectId, ref: "Client", childPath:'stores' },
 	store_name: { type: String, required: 'Store name is required!'},
@@ -155,6 +157,7 @@ var StoreSchema = new Schema({
 		latitude: { type: Number },
 		longitude: { type: Number }
 	},
+	address: { type:String },
 	layout: [{
 		x: { type:Number },
 		y: { type:Number }
@@ -211,10 +214,16 @@ module.exports.Store = Store;
 //===================================================================================================================//
 
 var ClientSchema = new Schema({
+	image: { type:String },
 	uuid: { type:String, required: 'UUID is required!', unique: uni, match: UUIDmatch, uppercase: true },
 	name: { type: String, unique: uni },
 	stores: [{ type: Schema.Types.ObjectId, ref: 'Store' }],
-	beacons: [{ type: Schema.Types.ObjectId, ref: 'Beacon' }]
+	beacons: [{ type: Schema.Types.ObjectId, ref: 'Beacon' }],
+	location: {
+		latitude: { type: Number },
+		longitude: { type: Number }
+	},
+	address: { type:String }
 });
 
 ClientSchema.post('remove', function(doc) {

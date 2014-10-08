@@ -5,6 +5,7 @@
       <div>
         <div><h1><%= store.areas[i].area_name %></h1></div>
         <div><h1><%= store.areas[i].minor_id %></h1></div>
+        <div><a href='/clients/<%= store.client%>/stores/<%= store._id%>/areas/<%= store.areas[i]._id %>'>Update</a></div>
       </div>
     </div>
   <% } %>

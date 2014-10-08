@@ -1,12 +1,33 @@
-<div class="row">
-  <div class="col-lg-12">
-    <h2>Add Area</h2>
-    <form id="newStoreForm" action="/clients/<%= store.client%>/stores/<%= store._id%>/areas" method="POST">
-      <label>Name</label>
-      <input type="text" placeholder="Name" name="area_name" required>
-      <label>Minor ID</label>
-      <input type="text" placeholder="1" name="minor_id" required>
-      <input type="submit" value="Add" id='addNewStoreButton'/>
-    </form>
+<div class="modal fade" id="addAreaModal">
+<div class="modal-dialog">
+<div class="modal-content">
+
+<!-- MODAL HEADER -->
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+  <h4 class="modal-title">Add Area</h4>
+</div>
+
+<form id="addAreaForm" action="/clients/<%= store.client%>/stores/<%= store._id%>/areas" method="POST">
+  <!-- MODAL BODY -->
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-12" style="margin-bottom:20px">
+        <label>Name</label>
+        <input type="text" placeholder="Name" name="area_name" required>
+        <label>Minor ID</label>
+        <input type="text" placeholder="1" name="minor_id" required>
+      </div>
+    </div>
   </div>
+  <!-- MODAL FOOTER -->
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <input type="submit" class="btn btn-primary" value="Add" id='addAreaButton'/>
+  </div>
+  <!-- -->
+</form>
+
+</div>
+</div>
 </div>
