@@ -24,6 +24,16 @@ function isLoggedIn(req, res, next) {
   return next();
 }
 
+function redirectWithErrors(req, res, is_new, err) {
+  var errors = new Array();
+  for (var name in err.errors) {
+    errors.push(err.errors[name]);
+  }
+  req.flash('is_new',is_new);
+  req.flash('errors',errors);
+  res.redirect(req.baseUrl);
+}
+
 // GET /clients/:client_id/stores
 // Get all store for client_id
 router.get('/', isLoggedIn, function(req,res) {
@@ -32,7 +42,7 @@ router.get('/', isLoggedIn, function(req,res) {
       res.render(err);
     }
     //console.log(req.route);
-    res.render('skeleton/stores',{ client: client });
+    res.render('skeleton/stores',{ client: client, is_new: req.flash('is_new'), errors: req.flash('errors') });
   });
 });
 
@@ -64,6 +74,9 @@ router.get('/:store_id/layout', isLoggedIn, function(req,res) {
 // Create store for client_id
 router.post('/', isLoggedIn, function(req,res) {
   Client.findById(client_id, function(err,client) {
+    if (err) {
+      res.render(err);
+    }
     var store = new Store();
     store.store_name = req.body.store_name;
     store.major_id = req.body.major_id;
@@ -71,7 +84,7 @@ router.post('/', isLoggedIn, function(req,res) {
     store.client = client._id;
     store.save(function (err) {
       if (err) {
-        res.render(err);
+        redirectWithErrors(req, res, 1, err);
       }
       else res.redirect('/clients/'+client_id+'/stores');
     });
@@ -87,7 +100,8 @@ router.put('/:store_id', isLoggedIn, function(req,res) {
     store.location.longitude = req.body.longitude;
     store.save(function (err) {
       if (err) {
-        res.render(err);
+        //res.render(err);
+        res.redirect('/clients/'+client_id+'/stores?new=1&err=0');
       }
       else res.redirect('/clients/'+client_id+'/stores');
     });
@@ -99,7 +113,8 @@ router.put('/:store_id', isLoggedIn, function(req,res) {
 router.put('/:store_id/layout', isLoggedIn, function(req,res) {
   Store.findById(req.params.store_id, function(err,store) {
     if (err) {
-      res.render(err);
+      //res.render(err);
+      res.redirect('/clients/'+client_id+'/stores?new=2&err=0');
     }
     console.log('LAYOUT raw text');
     console.log(req.body);
@@ -108,6 +123,10 @@ router.put('/:store_id/layout', isLoggedIn, function(req,res) {
     console.log(layout);
     store.layout = layout;
     store.save(function (err){
+      if (err) {
+        //res.render(err);
+        res.redirect('/clients/'+client_id+'/stores/?new=2&err=0');
+      }
       res.json(store.layout);
     })
   });
@@ -119,11 +138,13 @@ router.put('/:store_id/layout', isLoggedIn, function(req,res) {
 router.delete('/:store_id', isLoggedIn, function(req,res) {
   Store.findOne({ _id:req.params.store_id }, function (err, store) {
     if (err) {
-      res.render(err);
+      //res.render(err);
+      res.redirect('/clients/'+client_id+'/stores?new=3&err=0');
     } else {
       store.remove(function(err) {
         if (err) {
-          res.render(err);
+          //res.render(err);
+          res.redirect('/clients/'+client_id+'/stores?new=3&err=0');
         } else {
           res.redirect('/clients/'+client_id+'/stores');
         }

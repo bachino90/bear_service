@@ -1,13 +1,20 @@
 <div class="row">
   <% if (store.areas) { %>
-  <% for (var i=0;i<store.areas.length;i++) { %>
-    <div class="col-lg-3 col-md-3 col-sm-3 mb">
-      <div>
-        <div><h1><%= store.areas[i].area_name %></h1></div>
-        <div><h1><%= store.areas[i].minor_id %></h1></div>
-        <div><a href='/clients/<%= store.client%>/stores/<%= store._id%>/areas/<%= store.areas[i]._id %>'>Update</a></div>
+    <% for (var i=0;i<store.areas.length;i++) { %>
+    <div class="col-lg-3 col-md-6">
+      <div class='area text-center'>
+          <div class='area-title bg-light-gray'>
+            <div><%= store.areas[i].area_name %></div>
+            <div>Minor ID: <%= store.areas[i].minor_id %></div>
+          </div>
+          <div class='area-body'>
+            <div>X: <%= store.areas[i].position.x %></div>
+            <div>Y: <%= store.areas[i].position.y %></div>
+            <div>Z: <%= store.areas[i].position.z %></div>
+            <div><button href="/clients/<%= store.client %>/stores/<%= store._id %>/areas/<%= store.areas[i]._id %>">Edit</Button></div>
+          </div>
       </div>
     </div>
-  <% } %>
+    <% } %>
   <% } %>
 </div>

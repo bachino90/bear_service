@@ -4,4 +4,9 @@ $(document).ready(function() {
     $('#addStoreModal').modal();
   });
 
+  $('button#editClientButton').click(function(){
+    $('#editClientModal').modal();
+  });
+
+
 });

@@ -8,14 +8,16 @@
         <div class='container-fluid'>
           <!-- Page Heading -->
           <div class="row">
-            <div class="col-md-6">
-              <div class='panel-heading'>
-                <img src="http://images.media-allrecipes.com/userphotos/140x140/00/94/91/949139.jpg" alt="" class="img-circle logo">
-                <div class="">
+            <div class='col-lg-12'>
+              <div class='header-panel'>
+                <div class='header-img'>
+                  <img src="http://images.media-allrecipes.com/userphotos/140x140/00/94/91/949139.jpg" alt="" class="img-circle logo">
+                </div>
+                <div class="header-data">
                   <h2><%= client.name %><small> <%= client.stores.length %> stores</small></h2>
                   <p><%= client.uuid %></p>
-
                   <button id='addStoreButton'>Add Store</button>
+                  <button id='editClientButton'>Edit Client</button>
                 </div>
               </div>
             </div>
@@ -29,11 +31,17 @@
           </div>
           <!-- /.row -->
           <% include _add_store %>
+          <% include _edit_client %>
           <% include _stores %>
         </div>
       </div>
     </div>
     <% include _bottom_js %>
     <script src="/javascripts/store.js"></script>
+    <% if (is_new && is_new == 1) { %>
+      <script>
+        $('#addStoreModal').modal();
+      </script>
+    <% } %>
   </body>
 </html>

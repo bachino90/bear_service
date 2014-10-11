@@ -1,7 +1,7 @@
 <div class="row">
   <% if (client.stores) { %>
     <% for (var i=0;i<client.stores.length;i++) { %>
-    <div class="col-lg-3 col-md-3 col-sm-3 mb">
+    <div class="col-lg-3 col-md-6">
       <div class='store text-center'>
         <a href="/clients/<%= client._id%>/stores/<%= client.stores[i]._id%>/areas">
           <div class='store-title bg-dark-gray'>

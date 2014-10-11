@@ -11,6 +11,16 @@
 <form id="addStoreForm" action="/clients/<%= client._id%>/stores" method="POST">
   <!-- MODAL BODY -->
   <div class="modal-body">
+    <!-- show any messages that come back with authentication -->
+    <% if ((is_new && errors ) && is_new==1 && errors.length > 0) { %>
+      <div class="alert alert-danger">
+        <ul>
+        <% for (var error in errors) { %>
+          <li><%= errors[error].message %></li>
+        <% } %>
+        </ul>
+      </div>
+    <% } %>
     <div class="row">
       <div class="col-md-12" style="margin-bottom:20px">
         <label>Name</label>
@@ -31,3 +41,9 @@
 </div>
 </div>
 </div>
+
+<% if (is_new && is_new == 1) { %>
+  <script>
+    $('#addStoreModal').modal();
+  </script>
+<% } %>

@@ -151,7 +151,7 @@ var StoreSchema = new Schema({
 	client: { type: Schema.Types.ObjectId, ref: "Client", childPath:'stores' },
 	store_name: { type: String, required: 'Store name is required!'},
 	uuid: { type:String, required: 'UUID is required!', match: UUIDmatch, uppercase: true },
-	major_id: { type: Number, min: mini, max: maxi,  required: 'Minor ID is required!' },
+	major_id: { type: Number, min: mini, max: maxi,  required: 'Major ID is required!' },
 	areas: [{ type: Schema.Types.ObjectId, ref: 'Area' }],
 	location: {
 		latitude: { type: Number },
