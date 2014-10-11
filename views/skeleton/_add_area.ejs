@@ -11,6 +11,10 @@
 <form id="addAreaForm" action="/clients/<%= store.client%>/stores/<%= store._id%>/areas" method="POST">
   <!-- MODAL BODY -->
   <div class="modal-body">
+    <!-- show any messages that come back with authentication -->
+    <% if (is_new && is_new==1) { %>
+      <% include _error %>
+    <% } %>
     <div class="row">
       <div class="col-md-12" style="margin-bottom:20px">
         <label>Name</label>

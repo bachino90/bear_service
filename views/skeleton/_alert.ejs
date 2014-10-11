@@ -1,0 +1,27 @@
+<% if (infos) { %>
+  <div class="alert alert-info alert-dismissible">
+    <ul>
+    <% for (var info in infos) { %>
+      <li><%= infos[info].message %></li>
+    <% } %>
+    </ul>
+  </div>
+<% } %>
+<% if (warnings) { %>
+  <div class="alert alert-warning alert-dismissible">
+    <ul>
+    <% for (var warning in warnings) { %>
+      <li><%= warnings[warning].message %></li>
+    <% } %>
+    </ul>
+  </div>
+<% } %>
+<% if (success) { %>
+  <div class="alert alert-success alert-dismissible">
+    <ul>
+    <% for (var succ in success) { %>
+      <li><%= success[succ].message %></li>
+    <% } %>
+    </ul>
+  </div>
+<% } %>

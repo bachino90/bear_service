@@ -25,13 +25,19 @@ function isLoggedIn(req, res, next) {
 }
 
 function redirectWithErrors(req, res, is_new, err) {
+  //
+  // is_new = 1   Add Store
+  // is_new = 2   Edit Store
+  // is_new = 3   Layout Store
+  // is_new = 4   Delete Store
+  //
   var errors = new Array();
   for (var name in err.errors) {
     errors.push(err.errors[name]);
   }
   req.flash('is_new',is_new);
   req.flash('errors',errors);
-  res.redirect(req.baseUrl);
+  res.redirect(req.originalUrl);
 }
 
 // GET /clients/:client_id/stores
@@ -42,7 +48,12 @@ router.get('/', isLoggedIn, function(req,res) {
       res.render(err);
     }
     //console.log(req.route);
-    res.render('skeleton/stores',{ client: client, is_new: req.flash('is_new'), errors: req.flash('errors') });
+
+    console.log(req.flash('new_store'));
+    res.render('skeleton/stores',{ client: client,
+                                new_store: req.flash('new_store'),
+                                   is_new: req.flash('is_new'),
+                                   errors: req.flash('errors') });
   });
 });
 
@@ -78,7 +89,8 @@ router.get('/:store_id/layout', isLoggedIn, function(req,res) {
 router.post('/', isLoggedIn, function(req,res) {
   Client.findById(client_id, function(err,client) {
     if (err) {
-      res.render(err);
+      //res.render(err);
+      redirectWithErrors(req, res, 1, err);
     }
     var store = new Store();
     store.store_name = req.body.store_name;
@@ -87,6 +99,10 @@ router.post('/', isLoggedIn, function(req,res) {
     store.client = client._id;
     store.save(function (err) {
       if (err) {
+        var new_store = new Object();
+        new_store.store_name = req.body.store_name;
+        new_store.major_id = req.body.major_id;
+        req.flash('new_store',new_store);
         redirectWithErrors(req, res, 1, err);
       }
       else res.redirect('/clients/'+client_id+'/stores');
@@ -103,10 +119,9 @@ router.put('/:store_id', isLoggedIn, function(req,res) {
     store.location.longitude = req.body.longitude;
     store.save(function (err) {
       if (err) {
-        //res.render(err);
-        redirectWithErrors(req, res, 1, err);
+        redirectWithErrors(req, res, 2, err);
       }
-      else res.redirect('/clients/'+client_id+'/stores');
+      else res.redirect('/clients/'+client_id+'/stores/'+req.params.store_id+'/areas');
     });
   });
 });

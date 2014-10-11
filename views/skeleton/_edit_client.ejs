@@ -11,6 +11,10 @@
 <form id="editClientForm" action="/clients/<%= client._id %>" method="POST">
   <!-- MODAL BODY -->
   <div class="modal-body">
+    <!-- show any messages that come back with authentication -->
+    <% if (is_new && is_new==2) { %>
+      <% include _error %>
+    <% } %>
     <div class="row">
       <div class="col-lg-12">
         <input name="_method" value="PUT" type="hidden">

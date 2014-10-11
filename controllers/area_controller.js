@@ -27,6 +27,22 @@ function isLoggedIn(req, res, next) {
   return next();
 }
 
+function redirectWithErrors(req, res, is_new, err) {
+  //
+  // is_new = 1   Add area
+  // is_new = 2   Edit area
+  // is_new = 4   Delete area
+  //
+  var errors = new Array();
+  for (var name in err.errors) {
+    errors.push(err.errors[name]);
+  }
+  req.flash('is_new',is_new);
+  req.flash('errors',errors);
+  console.log(req);
+  res.redirect(req.originalUrl);
+}
+
 // GET /clients/:client_id/stores/:store_id/areas
 // Get all area for store_id
 router.get('/', isLoggedIn, function(req,res) {
@@ -34,7 +50,9 @@ router.get('/', isLoggedIn, function(req,res) {
     if (err) {
       res.render(err);
     }
-    res.render('skeleton/areas',{ store: store });
+    res.render('skeleton/areas',{ store: store,
+                                 is_new: req.flash('is_new'),
+                                 errors: req.flash('errors') });
   });
 });
 
@@ -63,7 +81,8 @@ router.post('/', isLoggedIn, function(req,res) {
     area.store = store._id;
     area.save(function(err) {
       if (err) {
-        res.render(err);
+        //res.render(err);
+        redirectWithErrors(req, res, 1, err);
       }
       else {
         var beacon = new Beacon();
@@ -96,7 +115,8 @@ router.put('/:area_id', isLoggedIn, function(req,res) {
     area.position.z = req.body.z;
     area.save(function (err) {
       if (err) {
-        res.render(err);
+        //res.render(err);
+        redirectWithErrors(req, res, 2, err);
       }
       else res.redirect('/clients/'+client_id+'/stores/'+store_id+'/areas');
     });
@@ -108,11 +128,13 @@ router.put('/:area_id', isLoggedIn, function(req,res) {
 router.delete('/:area_id', isLoggedIn, function(req,res) {
   Area.findOne({ _id:req.params.area_id }, function (err, area) {
     if (err) {
-      res.render(err);
+      //res.render(err);
+      redirectWithErrors(req, res, 3, err);
     } else {
       area.remove(function(err) {
         if (err) {
-          res.render(err);
+          //res.render(err);
+          redirectWithErrors(req, res, 3, err);
         } else {
           res.redirect('/clients/'+client_id+'/stores/'+store_id+'/areas');
         }

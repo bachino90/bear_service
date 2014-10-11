@@ -97,7 +97,7 @@ var AreaSchema = new Schema({
 	store: { type: Schema.Types.ObjectId, ref: 'Store', childPath:'areas' },
 	beacon: { type: Schema.Types.ObjectId, ref: 'Beacon' },
 	area_name: { type: String, required: 'Area name is required!'},
-	minor_id: { type: Number, min: mini, max: maxi,  required: 'Major ID is required!' },
+	minor_id: { type: Number, min: mini, max: maxi,  required: 'Minor ID is required!' },
 	description: { type: String },
 	position: {
 		x: { type: Number },

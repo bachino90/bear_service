@@ -1,0 +1,9 @@
+<% if (errors && errors.length > 0) { %>
+  <div class="alert alert-danger">
+    <ul>
+    <% for (var error in errors) { %>
+      <li><%= errors[error].message %></li>
+    <% } %>
+    </ul>
+  </div>
+<% } %>

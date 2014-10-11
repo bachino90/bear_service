@@ -7,6 +7,9 @@
       <div id='page-wrapper'>
         <div class='container-fluid'>
           <!-- Page Heading -->
+          <% if (is_new && is_new==4) { %>
+            <% include _error %>
+          <% } %>
           <div class="row">
             <div class='col-lg-12'>
               <div class='header-panel'>
@@ -40,5 +43,15 @@
     </div>
     <% include _bottom_js %>
     <script src="/javascripts/area.js"></script>
+    <% if (is_new && is_new == 1) { %>
+      <script>
+        $('#addAreaModal').modal();
+      </script>
+    <% } %>
+    <% if (is_new && is_new == 2) { %>
+      <script>
+        $('#editStoreModal').modal();
+      </script>
+    <% } %>
   </body>
 </html>
