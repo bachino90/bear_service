@@ -49,6 +49,8 @@ router.get('/', isLoggedIn, function(req,res) {
 // GET /clients/:client_id/stores/:store_id
 // Get store_id
 router.get('/:store_id', isLoggedIn, function(req,res) {
+  res.redirect(req.originalUrl+'/areas');
+  /*
   Store.findById(req.params.store_id, function(err,store) {
     if (err) {
       res.render(err);
@@ -56,6 +58,7 @@ router.get('/:store_id', isLoggedIn, function(req,res) {
     console.log(store);
     res.render('skeleton/update_store',{ store: store });
   });
+  */
 });
 
 // GET /clients/:client_id/stores/:store_id/layout
@@ -101,7 +104,7 @@ router.put('/:store_id', isLoggedIn, function(req,res) {
     store.save(function (err) {
       if (err) {
         //res.render(err);
-        res.redirect('/clients/'+client_id+'/stores?new=1&err=0');
+        redirectWithErrors(req, res, 1, err);
       }
       else res.redirect('/clients/'+client_id+'/stores');
     });
