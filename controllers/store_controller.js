@@ -51,7 +51,8 @@ router.get('/', isLoggedIn, function(req,res) {
 
     console.log(req.flash('new_store'));
     res.render('skeleton/stores',{ client: client,
-                                new_store: req.flash('new_store'),
+                           new_store_name: req.flash('new_store_name'),
+                       new_store_major_id: req.flash('new_store_major_id'),
                                    is_new: req.flash('is_new'),
                                    errors: req.flash('errors') });
   });
@@ -99,10 +100,8 @@ router.post('/', isLoggedIn, function(req,res) {
     store.client = client._id;
     store.save(function (err) {
       if (err) {
-        var new_store = new Object();
-        new_store.store_name = req.body.store_name;
-        new_store.major_id = req.body.major_id;
-        req.flash('new_store',new_store);
+        req.flash('new_store_name',req.body.store_name);
+        req.flash('new_store_major_id',req.body.major_id);
         redirectWithErrors(req, res, 1, err);
       }
       else res.redirect('/clients/'+client_id+'/stores');

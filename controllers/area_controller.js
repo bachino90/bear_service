@@ -51,6 +51,8 @@ router.get('/', isLoggedIn, function(req,res) {
       res.render(err);
     }
     res.render('skeleton/areas',{ store: store,
+                          new_area_name: req.flash('new_area_name'),
+                      new_area_minor_id: req.flash('new_area_minor_id'),
                                  is_new: req.flash('is_new'),
                                  errors: req.flash('errors') });
   });
@@ -82,6 +84,8 @@ router.post('/', isLoggedIn, function(req,res) {
     area.save(function(err) {
       if (err) {
         //res.render(err);
+        req.flash('new_area_name', req.body.area_name);
+        req.flash('new_area_minor_id', req.body.minor_id);
         redirectWithErrors(req, res, 1, err);
       }
       else {

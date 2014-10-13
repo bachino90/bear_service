@@ -5,8 +5,8 @@ var relationship 		= require('mongoose-relationship');
 var uniqueValidator = require('mongoose-unique-validator');
 
 var UUIDmatch = [ /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/, "Invalid UUID format" ];
-var mini = [1, 'The value of path `{PATH}` ({VALUE}) is beneath the limit ({MIN}).'];
-var maxi = [65535, 'The value of path `{PATH}` ({VALUE}) is beneath the limit ({MAX}).'];
+var mini = [1, 'The value {VALUE} is beneath the limit {MIN}.'];
+var maxi = [65535, 'The value {VALUE} is beneath the limit {MAX}.'];
 var uni = [true, 'Already exist'];
 
 //===================================================================================================================//
