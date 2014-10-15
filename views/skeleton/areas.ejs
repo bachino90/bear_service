@@ -22,6 +22,7 @@
                   <p><%= store.major_id %></p>
                   <button id='addAreaButton'>Add Area</button>
                   <button id='editStoreButton'>Edit Store</button>
+                  <button id='editLayoutButton'>Edit layout</button>
                 </div>
               </div>
             </div>
@@ -37,12 +38,14 @@
           <!-- /.row -->
           <% include _add_area %>
           <% include _edit_store %>
+          <% include _edit_layout %>
           <% include _areas %>
         </div>
       </div>
     </div>
     <% include _bottom_js %>
     <script src="/javascripts/area.js"></script>
+    <script src="/javascripts/store_layout/store_layout.js"></script>
     <% if (is_new && is_new == 1) { %>
       <script>
         $('#addAreaModal').modal();
@@ -53,5 +56,11 @@
         $('#editStoreModal').modal();
       </script>
     <% } %>
+    <% if (is_new && is_new == 3) { %>
+      <script>
+        $('#editLayoutModal').modal();
+      </script>
+    <% } %>
+  </body>
   </body>
 </html>

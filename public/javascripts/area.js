@@ -8,4 +8,8 @@ $(document).ready(function() {
     $('#editStoreModal').modal();
   });
 
+  $('button#editLayoutButton').click(function(){
+    $('#editLayoutModal').modal();
+  });
+
 });

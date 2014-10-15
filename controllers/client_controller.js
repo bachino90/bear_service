@@ -38,12 +38,15 @@ router.get('/', isLoggedIn, function(req, res) {
 // SHOW ONE
 // GET /clients/:client_id
 router.get('/:client_id', isLoggedIn, function(req, res) {
+  res.redirect(req.originalUrl+'/stores');
+  /*
   Client.findById(req.params.client_id, function(err, client) {
     if (err) {
       res.render(err);
     }
     res.render('client/update_client',{ client: client });
   });
+  */
 });
 
 router.get('/beacons', isLoggedIn, function(req, res) {

@@ -1,0 +1,45 @@
+<div class="modal fade" id="editLayoutModal">
+<div class="modal-dialog">
+<div class="modal-content">
+
+<!-- MODAL HEADER -->
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+  <h4 class="modal-title">Edit Layout</h4>
+</div>
+
+  <!-- MODAL BODY -->
+  <div class="modal-body">
+    <!-- show any messages that come back with authentication -->
+    <% if (is_new && is_new==3) { %>
+      <% include _error %>
+    <% } %>
+    <div class="row">
+      <div class="col-lg-12">
+        <input name="_method" value="PUT" type="hidden">
+        <label>Corners</label>
+        </br>
+        <div id='corners'>
+        </div>
+        <input type="button" value="Add Corner" id='addCornerButton'>
+        </br>
+        </br>
+        <input type="button" value="Generate view" id='generateView'>
+        <div id='layout'>
+          <canvas id="canvas_layout" width="300" height="300" style="border:1px solid #000000;">
+          </canvas>
+        </div>
+        </br>
+      </div>
+    </div>
+  </div>
+  <!-- MODAL FOOTER -->
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button type="submit" class="btn btn-primary" id='editLayoutSubmit'/>Update Layout</button>
+  </div>
+  <!-- -->
+
+</div>
+</div>
+</div>

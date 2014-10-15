@@ -11,7 +11,7 @@ $(document).ready(function() {
     });
   });
 
-  $('#sendButton').click(function (){
+  $('#editLayoutSubmit').click(function (){
     var url = "";
     var data = new Object();
     var corners = new Array();
@@ -27,11 +27,6 @@ $(document).ready(function() {
       corner.y = corners_y[i];
       corners[i] = corner;
     }
-    /*
-    $.put(url,{'layout':JSON.stringify(corners)},function(data){
-      $('layout').append(JSON.stringify(data));
-    },'json');
-    */
     $.ajax({
       url: url,
       type: 'PUT',
