@@ -274,6 +274,11 @@ a:active {
     text-align:center
 }
 
+.control-label {
+  text-align:right;
+  padding-top:7px;
+}
+
 .logo {
   width: 110px;
   height: 110px;

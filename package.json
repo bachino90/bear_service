@@ -23,6 +23,10 @@
     "passport": "~0.2.0",
     "passport-local": "~1.0.0",
     "connect-flash" : "latest",
-    "bcrypt-nodejs" : "latest"
+    "bcrypt-nodejs" : "latest",
+    "express-subdomain" : "latest",
+    "mongoose-relationship" : "latest",
+    "mongoose-unique-validator" : "latest",
+    "express-helpers" : "latest"
   }
 }

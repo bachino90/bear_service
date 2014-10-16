@@ -8,19 +8,23 @@
   <h4 class="modal-title">Add Store</h4>
 </div>
 
-<form id="addStoreForm" action="/clients/<%= client._id%>/stores" method="POST">
+<form id="addStoreForm" class="form-horizontal" action="/clients/<%= client._id%>/stores" method="POST">
   <!-- MODAL BODY -->
   <div class="modal-body">
     <!-- show any messages that come back with authentication -->
     <% if (is_new && is_new==1) { %>
       <% include _error %>
     <% } %>
-    <div class="row">
-      <div class="col-md-12" style="margin-bottom:20px">
-        <label>Name</label>
-        <input type="text" value="<%= new_store_name %>" placeholder="Name" name="store_name" required>
-        <label>Major ID</label>
-        <input type="text" value="<%= new_store_major_id %>" placeholder="1" name="major_id" required>
+    <div class='form-group'>
+      <label class="col-sm-2 control-label">Name</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" value="<%= new_store_name %>" placeholder="Name" name="store_name" required>
+      </div>
+    </div>
+    <div class='form-group'>
+      <label class="col-sm-2 control-label">Major ID</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" value="<%= new_store_major_id %>" placeholder="1" name="major_id" required>
       </div>
     </div>
   </div>

@@ -11,9 +11,9 @@ var flash           = require('connect-flash');
 var helpers         = require('express-helpers');
 var session         = require('express-session');
 
-var app               = express();
+var app             = express();
 
-var index  = require('./routes/index');
+var index             = require('./routes/index');
 var clientController  = require('./controllers/client_controller');
 var storeController   = require('./controllers/store_controller');
 var areaController    = require('./controllers/area_controller');

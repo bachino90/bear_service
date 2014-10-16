@@ -97,6 +97,7 @@ var AreaSchema = new Schema({
 	store: { type: Schema.Types.ObjectId, ref: 'Store', childPath:'areas' },
 	beacon: { type: Schema.Types.ObjectId, ref: 'Beacon' },
 	area_name: { type: String, required: 'Area name is required!'},
+	namespace: { type: String },
 	minor_id: { type: Number, min: mini, max: maxi,  required: 'Minor ID is required!' },
 	description: { type: String },
 	position: {
@@ -150,6 +151,7 @@ var StoreSchema = new Schema({
 	beacons: [{ type: Schema.Types.ObjectId, ref: 'Beacon' }],
 	client: { type: Schema.Types.ObjectId, ref: "Client", childPath:'stores' },
 	store_name: { type: String, required: 'Store name is required!'},
+	namespace: { type: String },
 	uuid: { type:String, required: 'UUID is required!', match: UUIDmatch, uppercase: true },
 	major_id: { type: Number, min: mini, max: maxi,  required: 'Major ID is required!' },
 	areas: [{ type: Schema.Types.ObjectId, ref: 'Area' }],
@@ -217,6 +219,7 @@ var ClientSchema = new Schema({
 	image: { type:String },
 	uuid: { type:String, required: 'UUID is required!', unique: uni, match: UUIDmatch, uppercase: true },
 	name: { type: String, unique: uni },
+	subdomain: { type: String, unique: uni },
 	stores: [{ type: Schema.Types.ObjectId, ref: 'Store' }],
 	beacons: [{ type: Schema.Types.ObjectId, ref: 'Beacon' }],
 	location: {
