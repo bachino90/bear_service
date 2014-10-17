@@ -40,13 +40,13 @@
         <div class="col-sm-5" style="margin-bottom:15px;">
           <div class="input-group">
             <div class="input-group-addon">X</div>
-            <input type="text" class="form-control" value="" placeholder="1" name="store_name" required>
+            <input type="text" class="form-control" id="x" value="" placeholder="1" name="x" required>
           </div>
         </div>
         <div class="col-sm-5" style="margin-bottom:15px;">
           <div class="input-group">
             <div class="input-group-addon">Y</div>
-            <input type="text" class="form-control" value="" placeholder="1" name="store_name" required>
+            <input type="text" class="form-control" id="y" value="" placeholder="1" name="y" required>
           </div>
         </div>
         <div class="col-sm-2" style="margin-bottom:15px;">
@@ -61,7 +61,7 @@
       <input type="button" class="btn btn-default" value="Generate view" id='generateView' style="width:100%">
     </div>
     <div class='form-group text-center'>
-      <canvas id="canvas_layout" style="border:1px solid #cccccc;width:100%;height:350px;">
+      <canvas id="canvas_layout" height="350px" width="100%" style="border:1px solid #cccccc;width:100%;height:350px;">
       </canvas>
     </div>
 
