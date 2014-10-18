@@ -31,7 +31,11 @@ router.get('/', isLoggedIn, function(req, res) {
     if (err) {
       res.render(err);
     }
-    res.render('client/clients',{ clients: allClients });
+    res.render('skeleton/clients',{ clients: allClients,
+                            new_client_name: req.flash('new_client_name'),
+                            new_client_uuid: req.flash('new_client_uuid'),
+                                     is_new: req.flash('is_new'),
+                                     errors: req.flash('errors') });
   });
 });
 

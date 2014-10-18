@@ -132,16 +132,35 @@ $(document).ready(function() {
       return parseInt($( this ).val());
     }).get();
 
-    context.clearRect(0, 0, canvas.width, canvas.height);
     drawGrid();
-    context.beginPath();
-    context.lineWidth=2;
-    context.moveTo(origin_x + corners_x[0], origin_y + corners_y[0]);
 
     var maxX = corners_x.max();
     var maxY = corners_y.max();
+    var scale;
 
-    var scale = canvas.height/(2*origin_x + maxX);//1;
+    if (maxY > maxX) {
+      scale = canvas.height/(2*origin_y + maxY);
+      origin_x = (canvas.width - (maxX * scale))/2.0;
+      origin_y = (canvas.height - (maxY * scale))/2.0;
+    } else if (maxY < maxX) {
+      scale = canvas.width/(2*origin_x + maxX);
+      origin_x = (canvas.width - (maxX * scale))/2.0;
+      origin_y = (canvas.height - (maxY * scale))/2.0;
+    } else {
+      if (canvas.height > canvas.width) {
+        scale = canvas.width/(2*origin_x + maxX);
+        origin_x = (canvas.width - (maxX * scale))/2.0;
+        origin_y = (canvas.height - (maxY * scale))/2.0;
+      } else {
+        scale = canvas.height/(2*origin_y + maxY);
+        origin_x = (canvas.width - (maxX * scale))/2.0;
+        origin_y = (canvas.height - (maxY * scale))/2.0;
+      }
+    }
+
+    context.beginPath();
+    context.lineWidth=2;
+    context.moveTo(origin_x + corners_x[0], origin_y + corners_y[0]);
 
     for (var i=1;i<corners_x.length;i++) {
       var x = origin_x + corners_x[i] * scale;

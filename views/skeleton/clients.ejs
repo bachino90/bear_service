@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <% include _header %>
+  <body>
+    <div id='wrapper'>
+      <% include _navbar %>
+      <div id='page-wrapper'>
+        <div class='container-fluid'>
+          <!-- Page Heading -->
+          <% if (is_new && is_new==4) { %>
+            <% include _error %>
+          <% } %>
+          <div class="row">
+            <div class="col-lg-12">
+              <ol class="breadcrumb">
+                <li class="active"><i class="fa fa-dashboard"></i> Clients</li>
+              </ol>
+            </div>
+          </div>
+          <% include _add_client %>
+          <% include _clients %>
+        </div>
+      </div>
+    </div>
+    <% include _bottom_js %>
+    <script src="/javascripts/clients.js"></script>
+    <% if (is_new && is_new == 1) { %>
+      <script>
+        $('#addClientModal').modal();
+      </script>
+    <% } %>
+  </body>
+</html>

@@ -1,0 +1,28 @@
+<div class="row">
+  <div class="col-lg-3 col-md-6">
+    <div class='store text-center'>
+      <a href="">
+        <div class='store-body'>
+          <div>Add Client</div>
+        </div>
+      </a>
+    </div>
+  </div>
+  <% if (clients) { %>
+    <% for (var i=0;i<clients.length;i++) { %>
+    <div class="col-lg-3 col-md-6">
+      <div class='store text-center'>
+        <a href="/clients/<%= clients[i]._id%>/stores">
+          <div class='store-title bg-dark-gray'>
+            <div><%= clients[i].name %></div>
+            <div>UUID: <%= clients[i].uuid %></div>
+          </div>
+          <div class='store-body'>
+            <div><%= clients[i].stores.length %> stores</div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <% } %>
+  <% } %>
+</div>
