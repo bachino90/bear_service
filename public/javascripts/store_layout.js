@@ -18,7 +18,7 @@ function drawGrid() {
   var origin_x = 0.0;
   var origin_y = 30.0;
   var scale = 50.0;
-  var delta = 50.5;
+  var delta = 30.5;
   var canvasWidth = canvas.width;
   var canvasHeight = canvas.height;
 
@@ -39,6 +39,34 @@ function drawGrid() {
     delta += scale;
   }
   context.stroke();
+}
+
+function drawScale(scale) {
+  var canvas = document.getElementById('canvas_layout');
+  var context = canvas.getContext('2d');
+
+  context.beginPath();
+  context.lineWidth="1.0";
+  context.strokeStyle="black";
+  context.rect(30.5,3.5,50.0,10.0);
+  context.stroke();
+
+  context.beginPath();
+  context.lineWidth="1.0";
+  context.strokeStyle="black";
+  context.rect(80.5,3.5,50.0,10.0);
+  context.stroke();
+  context.fillStyle="black";
+  context.fill();
+
+  context.beginPath();
+  context.font="10px Verdana";
+  context.fillStyle="black";
+  context.fillText("0",27.5,28.0);
+  var first = parseInt(50.0/scale);
+  context.fillText(first.toString(),74.5,28.0);
+  var second = parseInt(100.0/scale);
+  context.fillText(second.toString()+"m",124.5,28.0);
 }
 
 
@@ -168,6 +196,8 @@ $(document).ready(function() {
       context.lineTo(x, y);
     }
     context.stroke();
+
+    drawScale(scale);
 
   });
 });

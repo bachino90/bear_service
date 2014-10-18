@@ -93,17 +93,29 @@ module.exports.Beacon = Beacon;
 //===================================================================================================================//
 
 var AreaSchema = new Schema({
+	uuid: { type: String, required: 'UUID is required!', match: UUIDmatch, uppercase: true },
+	major_id: { type: Number, min: mini, max: maxi,  required: 'Minor ID is required!' },
+	minor_id: { type: Number, min: mini, max: maxi,  required: 'Minor ID is required!' },
+	full_uuid: { type: String, unique: uni, uppercase:true},
 	image: { type:String },
 	store: { type: Schema.Types.ObjectId, ref: 'Store', childPath:'areas' },
 	beacon: { type: Schema.Types.ObjectId, ref: 'Beacon' },
 	area_name: { type: String, required: 'Area name is required!'},
 	namespace: { type: String },
-	minor_id: { type: Number, min: mini, max: maxi,  required: 'Minor ID is required!' },
 	description: { type: String },
 	position: {
 		x: { type: Number },
 		y: { type: Number },
 		z: { type: Number }
+	},
+	content: {
+		image_url: { type: String },
+		web_url: { type: String },
+		video_url: { type: String },
+		audio_url: { type: String },
+		audio_streaming_url: { type: String },
+		video_streaming_url: { type: String },
+		info_text: { type: String }
 	},
 	unique_id: { type: String, unique: uni }
 });
@@ -111,11 +123,11 @@ var AreaSchema = new Schema({
 AreaSchema.post('remove', function(doc) {
 	console.log('entra para remover el beacon');
 	console.log('Area: '+doc);
-	Beacon.remove({ _id: doc.beacon }).exec();
 });
 
 AreaSchema.pre('validate', function (next) {
 	console.log('entra al pre save');
+	this.full_uuid = this.uuid + "-" + this.major_id + "-" + this.minor_id;
   if (this.description === undefined || this.description == null) {
   	this.description = "";
   }
@@ -215,11 +227,15 @@ module.exports.Store = Store;
 //============ Client Model =========================================================================================//
 //===================================================================================================================//
 
+var bussiness = 'BRAND APP SHOPPING'.split(' ')
+
 var ClientSchema = new Schema({
+	type: { type:String, enum:bussiness, required: 'Client type is required!' },
 	image: { type:String },
 	uuid: { type:String, required: 'UUID is required!', unique: uni, match: UUIDmatch, uppercase: true },
 	name: { type: String, unique: uni },
 	subdomain: { type: String, unique: uni },
+	brands: [{ type: Schema.Types.ObjectId, ref: 'Brand' }],
 	stores: [{ type: Schema.Types.ObjectId, ref: 'Store' }],
 	beacons: [{ type: Schema.Types.ObjectId, ref: 'Beacon' }],
 	location: {
@@ -273,7 +289,19 @@ var BeaconRequestSchema = new Schema({
 module.exports.BeaconRequest = mongoose.model('BeaconRequest', BeaconRequestSchema);
 
 //===================================================================================================================//
-//============ Beacon User Model =================================================================================//
+//============ Brand Model ==========================================================================================//
+//===================================================================================================================//
+
+var BrandSchema = new Schema({
+	name: { type:String },
+	image: { type:String },
+	stores: [{ type: Schema.Types.ObjectId, ref: 'Store' }]
+});
+
+module.exports.Brand = mongoose.model('Brand', BrandSchema);
+
+//===================================================================================================================//
+//============ Beacon User Model ====================================================================================//
 //===================================================================================================================//
 
 var BeaconUserSchema = new Schema({

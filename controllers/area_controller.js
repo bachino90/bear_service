@@ -66,7 +66,10 @@ router.get('/:area_id', isLoggedIn, function(req,res) {
       res.render(err);
     }
     var store = area.store;
-    res.render('skeleton/update_area',{ area: area, store: store });
+    res.render('skeleton/content',{ area: area,
+                                   store: store,
+                                  is_new: req.flash('is_new'),
+                                  errors: req.flash('errors') });
   });
 });
 

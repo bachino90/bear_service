@@ -7,8 +7,9 @@
       <div id='page-wrapper'>
         <div class="col-lg-12">
           <ol class="breadcrumb">
-            <li><i class="fa fa-dashboard"></i><a href='/clients/<%= store.client %>/stores'> Client name</a></li>
-            <li class="active"><i class="fa fa-dashboard"></i> Areas</li>
+            <li><i class="fa fa-dashboard"></i><a href='/clients'> Client name</a></li>
+            <li><i class="fa fa-dashboard"></i><a href='/clients/<%= store.client %>/stores'> <%= store.store_name %></a></li>
+            <li class="active"><i class="fa fa-dashboard"></i> Content</li>
           </ol>
         </div>
         <div class='container-fluid'>
@@ -23,40 +24,31 @@
                   <img src="http://images.media-allrecipes.com/userphotos/140x140/00/94/91/949139.jpg" alt="" class="img-circle logo">
                 </div>
                 <div class="header-data">
-                  <h2><%= store.store_name %> <small><%= store.areas.length %> areas</small></h2>
-                  <p><%= store.uuid %></p>
-                  <p><%= store.major_id %></p>
-                  <button id='addAreaButton'>Add Area</button>
-                  <button id='editStoreButton'>Edit Store</button>
-                  <button id='editLayoutButton'>Edit layout</button>
+                  <h2><%= area.area_name %></h2>
+                  <p>UUID: <%= store.uuid %></p>
+                  <p>Major ID: <%= store.major_id %></p>
+                  <p>Minor ID: <%= area.minor_id %></p>
+                  <button id='editAreaButton'>Edit Area</button>
+                  <button id='editContentButton'>Edit Content</button>
                 </div>
               </div>
             </div>
           </div>
           <!-- /.row -->
-          <% include _add_area %>
-          <% include _edit_store %>
-          <% include _edit_layout %>
-          <% include _areas %>
+          <% include _edit_area %>
         </div>
       </div>
     </div>
     <% include _bottom_js %>
-    <script src="/javascripts/area.js"></script>
-    <script src="/javascripts/store_layout.js"></script>
-    <% if (is_new && is_new == 1) { %>
-      <script>
-        $('#addAreaModal').modal();
-      </script>
-    <% } %>
+    <script src="/javascripts/content.js"></script>
     <% if (is_new && is_new == 2) { %>
       <script>
-        $('#editStoreModal').modal();
+        $('#editAreaModal').modal();
       </script>
     <% } %>
     <% if (is_new && is_new == 3) { %>
       <script>
-        $('#editLayoutModal').modal();
+        $('#editContentModal').modal();
       </script>
     <% } %>
   </body>

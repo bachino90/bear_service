@@ -45,6 +45,7 @@ function redirectWithErrors(req, res, is_new, err) {
 router.get('/', isLoggedIn, function(req,res) {
   Client.findById(client_id).populate('stores').exec(function(err,client) {
     if (err) {
+      console.log(err);
       res.render(err);
     }
     //console.log(req.route);
