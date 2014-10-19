@@ -48,13 +48,16 @@ function redirectWithErrors(req, res, is_new, err) {
 router.get('/', isLoggedIn, function(req,res) {
   Store.findById(store_id).populate('areas').exec(function(err,store) {
     if (err) {
-      res.render(err);
+      res.render('skeleton/error');
+    } else if (!store) {
+      res.render('skeleton/error');
+    } else {
+      res.render('skeleton/areas',{ store: store,
+                            new_area_name: req.flash('new_area_name'),
+                        new_area_minor_id: req.flash('new_area_minor_id'),
+                                   is_new: req.flash('is_new'),
+                                   errors: req.flash('errors') });
     }
-    res.render('skeleton/areas',{ store: store,
-                          new_area_name: req.flash('new_area_name'),
-                      new_area_minor_id: req.flash('new_area_minor_id'),
-                                 is_new: req.flash('is_new'),
-                                 errors: req.flash('errors') });
   });
 });
 
@@ -63,13 +66,16 @@ router.get('/', isLoggedIn, function(req,res) {
 router.get('/:area_id', isLoggedIn, function(req,res) {
   Area.findById(req.params.area_id).populate('store').exec(function(err,area) {
     if (err) {
-      res.render(err);
+      res.render('skeleton/error');
+    } else if (!area) {
+      res.render('skeleton/error');
+    } else {
+      var store = area.store;
+      res.render('skeleton/content',{ area: area,
+                                     store: store,
+                                    is_new: req.flash('is_new'),
+                                    errors: req.flash('errors') });
     }
-    var store = area.store;
-    res.render('skeleton/content',{ area: area,
-                                   store: store,
-                                  is_new: req.flash('is_new'),
-                                  errors: req.flash('errors') });
   });
 });
 
@@ -92,6 +98,8 @@ router.post('/', isLoggedIn, function(req,res) {
         redirectWithErrors(req, res, 1, err);
       }
       else {
+        res.redirect('/clients/'+client_id+'/stores/'+store_id+'/areas');
+        /*
         var beacon = new Beacon();
         beacon.uuid = store.uuid;
         beacon.major_id = store.major_id;
@@ -106,6 +114,7 @@ router.post('/', isLoggedIn, function(req,res) {
             res.redirect('/clients/'+client_id+'/stores/'+store_id+'/areas');
           }
         });
+        */
       }
     });
   });

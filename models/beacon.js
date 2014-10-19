@@ -96,7 +96,8 @@ var AreaSchema = new Schema({
 	uuid: { type: String, required: 'UUID is required!', match: UUIDmatch, uppercase: true },
 	major_id: { type: Number, min: mini, max: maxi,  required: 'Minor ID is required!' },
 	minor_id: { type: Number, min: mini, max: maxi,  required: 'Minor ID is required!' },
-	full_uuid: { type: String, unique: uni, uppercase:true},
+	half_uuid: { type: String, uppercase:true},
+	full_uuid: { type: String, unique: uni, uppercase:true },
 	image: { type:String },
 	store: { type: Schema.Types.ObjectId, ref: 'Store', childPath:'areas' },
 	beacon: { type: Schema.Types.ObjectId, ref: 'Beacon' },
@@ -116,8 +117,7 @@ var AreaSchema = new Schema({
 		audio_streaming_url: { type: String },
 		video_streaming_url: { type: String },
 		info_text: { type: String }
-	},
-	unique_id: { type: String, unique: uni }
+	}//,unique_id: { type: String, unique: uni }
 });
 
 AreaSchema.post('remove', function(doc) {
@@ -127,6 +127,7 @@ AreaSchema.post('remove', function(doc) {
 
 AreaSchema.pre('validate', function (next) {
 	console.log('entra al pre save');
+	this.half_uuid = this.uuid + "-" + this.major_id;
 	this.full_uuid = this.uuid + "-" + this.major_id + "-" + this.minor_id;
   if (this.description === undefined || this.description == null) {
   	this.description = "";
@@ -140,13 +141,34 @@ AreaSchema.pre('validate', function (next) {
 	if (this.position.z === undefined || this.position.z == null) {
 		this.position.z = 0;
 	}
-	if (this.unique_id === undefined || this.unique_id == null) {
-		this.unique_id = this.store + '-' + this.minor_id;
+	if (this.content.image_url === undefined || this.content.image_url == null) {
+		this.content.image_url = "";
 	}
+	if (this.content.web_url === undefined || this.content.web_url == null) {
+		this.content.web_url = "";
+	}
+	if (this.content.video_url === undefined || this.content.video_url == null) {
+		this.content.video_url = "";
+	}
+	if (this.content.audio_url === undefined || this.content.audio_url == null) {
+		this.content.audio_url = "";
+	}
+	if (this.content.audio_streaming_url === undefined || this.content.audio_streaming_url == null) {
+		this.content.audio_streaming_url = "";
+	}
+	if (this.content.video_streaming_url === undefined || this.content.video_streaming_url == null) {
+		this.content.video_streaming_url = "";
+	}
+	if (this.content.info_text === undefined || this.content.info_text == null) {
+		this.content.info_text = "";
+	}
+	//if (this.unique_id === undefined || this.unique_id == null) {
+		//this.unique_id = this.store + '-' + this.minor_id;
+	//}
 	next();
 });
 
-AreaSchema.path('unique_id').index({ unique: true });
+//AreaSchema.path('unique_id').index({ unique: true });
 AreaSchema.plugin(uniqueValidator, { message: 'Minor ID already exist' });
 AreaSchema.plugin(relationship, { relationshipPathName:'store' });
 
@@ -263,6 +285,19 @@ ClientSchema.post('remove', function(doc) {
 			}
 		}
 	});
+});
+
+ClientSchema.pre('validate', function (next) {
+	if (this.location.latitude === undefined || this.location.latitude == null) {
+		this.location.latitude = 0;
+	}
+	if (this.location.longitude === undefined || this.location.longitude == null) {
+		this.location.longitude = 0;
+	}
+	if (this.address === undefined || this.address == null) {
+		this.address = "";
+	}
+	next();
 });
 
 ClientSchema.path('uuid').index({ unique: true });

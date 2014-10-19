@@ -46,16 +46,16 @@ router.get('/', isLoggedIn, function(req,res) {
   Client.findById(client_id).populate('stores').exec(function(err,client) {
     if (err) {
       console.log(err);
-      res.render(err);
+      res.render('skeleton/error');
+    } else if (!client) {
+      res.render('skeleton/error');
+    } else {
+      res.render('skeleton/stores',{ client: client,
+                             new_store_name: req.flash('new_store_name'),
+                         new_store_major_id: req.flash('new_store_major_id'),
+                                     is_new: req.flash('is_new'),
+                                     errors: req.flash('errors') });
     }
-    //console.log(req.route);
-
-    console.log(req.flash('new_store'));
-    res.render('skeleton/stores',{ client: client,
-                           new_store_name: req.flash('new_store_name'),
-                       new_store_major_id: req.flash('new_store_major_id'),
-                                   is_new: req.flash('is_new'),
-                                   errors: req.flash('errors') });
   });
 });
 
@@ -117,8 +117,10 @@ router.put('/:store_id', isLoggedIn, function(req,res) {
     store.store_name = req.body.store_name;
     store.location.latitude = req.body.latitude;
     store.location.longitude = req.body.longitude;
+    console.log('jojoj');
     store.save(function (err) {
       if (err) {
+        console.log(err);
         redirectWithErrors(req, res, 2, err);
       }
       else res.redirect('/clients/'+client_id+'/stores/'+req.params.store_id+'/areas');

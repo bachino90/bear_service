@@ -29,7 +29,7 @@ function isLoggedIn(req, res, next) {
 router.get('/', isLoggedIn, function(req, res) {
   Client.find(function(err, allClients){
     if (err) {
-      res.render(err);
+      res.render('skeleton/error');
     }
     res.render('skeleton/clients',{ clients: allClients,
                             new_client_name: req.flash('new_client_name'),

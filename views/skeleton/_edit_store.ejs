@@ -15,6 +15,7 @@
     <% if (is_new && is_new==2) { %>
       <% include _error %>
     <% } %>
+    <input name="_method" value="PUT" type="hidden">
     <div class='form-group'>
       <label class="col-sm-2 control-label">Name</label>
       <div class="col-sm-10">
@@ -32,11 +33,11 @@
       <div class="col-lg-10">
         <div class="input-group" style="margin-bottom:15px;">
           <div class="input-group-addon">Latitude</div>
-          <input type="text" class="form-control" value='<%= store.location.latitude %>' placeholder="latitude" name="latitude">
+          <input type="text" class="form-control" value='<%= store.location.latitude %>' placeholder="Latitude" name="latitude">
         </div>
         <div class="input-group">
           <div class="input-group-addon">Longitude</div>
-          <input type="text" class="form-control" value='<%= store.location.longitude %>' placeholder="longitude" name="latitude">
+          <input type="text" class="form-control" value='<%= store.location.longitude %>' placeholder="Longitude" name="longitude">
         </div>
       </div>
     </div>
