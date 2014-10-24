@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
-  $('button#addAreaButton').click(function(){
-    $('#addAreaModal').modal();
+  $('button#addBeaconButton').click(function(){
+    $('#addBeaconModal').modal();
   });
 
   $('button#editStoreButton').click(function(){

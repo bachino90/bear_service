@@ -6,7 +6,6 @@ var express        = require('express');
 var passport       = require('passport');
 var router         = express.Router();
 var Store          = require('../models/beacon').Store;
-var Area           = require('../models/beacon').Area;
 var Beacon         = require('../models/beacon').Beacon;
 var Client         = require('../models/beacon').Client;
 
@@ -53,6 +52,7 @@ router.get('/:client_id', isLoggedIn, function(req, res) {
   */
 });
 
+/*
 router.get('/beacons', isLoggedIn, function(req, res) {
   Beacon.find(req.params.client_id, function(err, client) {
     if (err) {
@@ -61,6 +61,7 @@ router.get('/beacons', isLoggedIn, function(req, res) {
     res.render('client/update_client',{ client: client });
   });
 });
+*/
 
 // CREATE
 // POST /clients
@@ -68,6 +69,7 @@ router.post('/', isLoggedIn, function(req,res) {
   var new_client = new Client();
   new_client.name = req.body.name;
   new_client.uuid = req.body.uuid;
+  new_client.type = req.body.type;
   new_client.save(function(err) {
     if (err) {
       console.log(err);

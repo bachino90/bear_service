@@ -6,7 +6,6 @@ var express        = require('express');
 var passport       = require('passport');
 var router         = express.Router();
 var Store          = require('../models/beacon').Store;
-var Area           = require('../models/beacon').Area;
 var Beacon         = require('../models/beacon').Beacon;
 var Client         = require('../models/beacon').Client;
 var client_id;
@@ -62,7 +61,7 @@ router.get('/', isLoggedIn, function(req,res) {
 // GET /clients/:client_id/stores/:store_id
 // Get store_id
 router.get('/:store_id', isLoggedIn, function(req,res) {
-  res.redirect(req.originalUrl+'/areas');
+  res.redirect(req.originalUrl+'/beacons');
   /*
   Store.findById(req.params.store_id, function(err,store) {
     if (err) {
@@ -123,7 +122,7 @@ router.put('/:store_id', isLoggedIn, function(req,res) {
         console.log(err);
         redirectWithErrors(req, res, 2, err);
       }
-      else res.redirect('/clients/'+client_id+'/stores/'+req.params.store_id+'/areas');
+      else res.redirect('/clients/'+client_id+'/stores/'+req.params.store_id+'/beacons');
     });
   });
 });

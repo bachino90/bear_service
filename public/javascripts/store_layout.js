@@ -145,7 +145,7 @@ $(document).ready(function() {
       success: function(data) {
         $('layout').append(JSON.stringify(data));
       }
-    })
+    });
   });
 
   $('#generateView').click(function(){

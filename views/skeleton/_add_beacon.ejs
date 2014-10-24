@@ -1,14 +1,14 @@
-<div class="modal fade" id="addAreaModal">
+<div class="modal fade" id="addBeaconModal">
 <div class="modal-dialog">
 <div class="modal-content">
 
 <!-- MODAL HEADER -->
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-  <h4 class="modal-title">Add Area</h4>
+  <h4 class="modal-title">Add Beacon</h4>
 </div>
 
-<form id="addAreaForm" class="form-horizontal" action="/clients/<%= store.client%>/stores/<%= store._id%>/areas" method="POST">
+<form id="addBeaconForm" class="form-horizontal" action="/clients/<%= store.client%>/stores/<%= store._id%>/beacons" method="POST">
   <!-- MODAL BODY -->
   <div class="modal-body">
     <!-- show any messages that come back with authentication -->
@@ -18,20 +18,20 @@
     <div class='form-group'>
       <label class="col-sm-2 control-label">Name</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" value="<%= new_area_name %>" placeholder="Name" name="area_name" required>
+        <input type="text" class="form-control" value="<%= new_beacon_name %>" placeholder="Name" name="beacon_name" required>
       </div>
     </div>
     <div class='form-group'>
       <label class="col-sm-2 control-label">Minor ID</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" value="<%= new_area_minor_id %>" placeholder="1" name="minor_id" required>
+        <input type="text" class="form-control" value="<%= new_beacon_minor_id %>" placeholder="1" name="minor_id" required>
       </div>
     </div>
   </div>
   <!-- MODAL FOOTER -->
   <div class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-    <input type="submit" class="btn btn-primary" value="Add" id='addAreaButton'/>
+    <input type="submit" class="btn btn-primary" value="Add" id='addBeaconButton'/>
   </div>
   <!-- -->
 </form>

@@ -16,7 +16,6 @@ var app             = express();
 var index             = require('./routes/index');
 var clientController  = require('./controllers/client_controller');
 var storeController   = require('./controllers/store_controller');
-var areaController    = require('./controllers/area_controller');
 var beaconController  = require('./controllers/beacon_controller');
 var loginController   = require('./controllers/login_controller');
 
@@ -62,10 +61,11 @@ mongoose.connect(mongoUri); // connect to our database
 //=============================================================================================================//
 
 app.use('/', index);
+app.use('/request', requestTestController);
 app.use('/clients', clientController);
 app.use('/clients/:client_id/stores', storeController);
-app.use('/clients/:client_id/stores/:store_id/areas', areaController);
-app.use('/request', requestTestController);
+app.use('/clients/:client_id/stores/:store_id/beacons', beaconController);
+
 
 app.use('/api/v1/',beaconAPIController);
 app.use('/api/v1/malba',malbaAPIController);
@@ -94,6 +94,7 @@ if (app.get('env') === 'development') {
             error: err
         });
         */
+        console.log(err);
         res.render('skeleton/error');
     });
 }

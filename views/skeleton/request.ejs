@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <% include _header %>
+  <body>
+    <div id='wrapper'>
+      <% include _navbar %>
+      <div id='page-wrapper'>
+        <div class='container-fluid'>
+          <div class="row">
+            <div class="panel panel-default">
+              <div class="panel-heading">One request testing</div>
+              <div class="panel-body">
+                <div class='col-lg-6'>
+                  <% include _form_one_request %>
+                </div>
+                <div class='col-lg-6'>
+                  <div id='response'>
+                    <code></code>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="panel panel-default">
+              <div class="panel-heading">Database</div>
+              <div class="panel-body">
+                <a href='/request/dTestReq' class="btn btn-warning" id='dropDatabaseButton'>Delete Test Requests</a>
+                <a href='/request/dReq' class="btn btn-danger" id='dropDatabaseButton'>Delete All Requests</a>
+                <a href='/request/dAll' class="btn btn-danger" id='dropDatabaseButton'>Drop Database</a>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="panel panel-default">
+              <div class="panel-heading">Beacon Requests</div>
+              <div class="panel-body">
+                <div class="table-responsive">
+                  <table class="table table-striped">
+                    <thead><tr><th>Client</th><th>Store</th><th>Beacon</th><th>RSSI</th><th>Date</th><th>User</th><th>Device OS</th><th>Device UUID</th></tr></thead>
+                    <tbody id='beaconTableBody'></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% include _bottom_js %>
+    <script src="/javascripts/request/request.js"></script>
+  </body>
+</html>

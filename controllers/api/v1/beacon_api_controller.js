@@ -25,12 +25,12 @@ function isLoggedIn(req, res, next) {
 // SHOW ONE
 // GET /api/v1/:client_id
 router.get('/:_id', isLoggedIn, function(req, res) {
-  Beacon.findById(req.params._id).populate('area').exec(function(err, beacon){
+  Beacon.findById(req.params._id).populate('beacon').exec(function(err, beacon){
     if (err) {
       res.json(err);
     } else {
       var options = {
-        path: 'area.store',
+        path: 'beacon.store',
         model: 'Store'
       };
       Beacon.populate(beacon, options, function (err, beacon) {

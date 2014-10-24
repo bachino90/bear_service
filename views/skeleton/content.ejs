@@ -24,17 +24,17 @@
                   <img src="http://images.media-allrecipes.com/userphotos/140x140/00/94/91/949139.jpg" alt="" class="img-circle logo">
                 </div>
                 <div class="header-data">
-                  <h2><%= area.area_name %></h2>
+                  <h2><%= beacon.beacon_name %></h2>
                   <p>UUID: <%= store.uuid %></p>
                   <p>Major ID: <%= store.major_id %></p>
-                  <p>Minor ID: <%= area.minor_id %></p>
-                  <button id='editAreaButton'>Edit Area</button>
+                  <p>Minor ID: <%= beacon.minor_id %></p>
+                  <button id='editBeaconButton'>Edit Beacon</button>
                 </div>
               </div>
             </div>
           </div>
           <!-- /.row -->
-          <% include _edit_area %>
+          <% include _edit_beacon %>
           <% include _content %>
         </div>
       </div>
@@ -43,7 +43,7 @@
     <script src="/javascripts/content.js"></script>
     <% if (is_new && is_new == 2) { %>
       <script>
-        $('#editAreaModal').modal();
+        $('#editBeaconModal').modal();
       </script>
     <% } %>
     <% if (is_new && is_new == 3) { %>

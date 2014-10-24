@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
-  $('button#editAreaButton').click(function(){
-    $('#editAreaModal').modal();
+  $('button#editBeaconButton').click(function(){
+    $('#editBeaconModal').modal();
   });
 
   $('button#editContentButton').click(function(){

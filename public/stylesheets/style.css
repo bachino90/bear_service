@@ -319,17 +319,17 @@ a:active {
   color: #6e6e6e
 }
 
-.area {
+.beacon {
     margin-bottom: 20px;
     box-shadow: 0 1px 1px rgba(0,0,0,.05);
 }
 
-.area-title {
+.beacon-title {
   padding: 10px 15px 10px 15px;
   color: white
 }
 
-.area-body {
+.beacon-body {
   padding: 5px 15px 0px 15px;
   color: #6e6e6e
 }
