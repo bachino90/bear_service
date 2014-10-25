@@ -129,6 +129,7 @@ router.put('/:beacon_id', isLoggedIn, function(req,res) {
     beacon.position.x = req.body.x;
     beacon.position.y = req.body.y;
     beacon.position.z = req.body.z;
+    console.log(req.body);
     beacon.save(function (err) {
       if (err) {
         //res.render(err);

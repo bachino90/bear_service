@@ -13,11 +13,12 @@ var session         = require('express-session');
 
 var app             = express();
 
-var index             = require('./routes/index');
-var clientController  = require('./controllers/client_controller');
-var storeController   = require('./controllers/store_controller');
-var beaconController  = require('./controllers/beacon_controller');
-var loginController   = require('./controllers/login_controller');
+var index                 = require('./routes/index');
+var clientController      = require('./controllers/client_controller');
+var storeController       = require('./controllers/store_controller');
+var beaconController      = require('./controllers/beacon_controller');
+var analyticsController   = require('./controllers/analytics_controller');
+var loginController       = require('./controllers/login_controller');
 
 var requestTestController = require('./controllers/request_testing_controller');
 
@@ -66,6 +67,7 @@ app.use('/clients', clientController);
 app.use('/clients/:client_id/stores', storeController);
 app.use('/clients/:client_id/stores/:store_id/beacons', beaconController);
 
+app.use('/clients/:client_id/analytics', analyticsController);
 
 app.use('/api/v1/',beaconAPIController);
 app.use('/api/v1/malba',malbaAPIController);

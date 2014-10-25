@@ -6,7 +6,6 @@ var express        = require('express');
 var passport       = require('passport');
 var router         = express.Router();
 var Store          = require('../models/beacon').Store;
-var Area           = require('../models/beacon').Area;
 var Beacon         = require('../models/beacon').Beacon;
 var BeaconClient   = require('../models/beacon').Client;
 var BeaconContent  = require('../models/beacon').BeaconContent;

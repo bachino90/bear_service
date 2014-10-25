@@ -334,6 +334,19 @@ a:active {
   color: #6e6e6e
 }
 
+.heatmap {
+  width: 100%;
+  height: 100%;
+  position: absolute!important;
+  top: 0;
+  left: 0;
+}
+
+.slider {
+  width:100%!important;
+  margin-top:35px;
+}
+
 @media (max-width: 424px) {
   .header-panel {
     text-align:center;

@@ -1,0 +1,34 @@
+<div class="row">
+  <div class="col-lg-8">
+    <div class='beacon text-center'>
+      <div class='beacon-title bg-light-gray'>
+        <div>Layout</div>
+        <div>
+          <input id="slider" type="text" class="span2" value="" data-slider-min="10" data-slider-max="1000" data-slider-step="5" data-slider-value="[250,450]">
+        </div>
+      </div>
+      <input type='hidden' id='analyticsURL' value="/clients/<%= store.client %>/analytics/<%= store._id%>">
+      <input type='hidden' id='layoutURL' value="/clients/<%= store.client %>/stores/<%= store._id%>/layout">
+      <div style='position:relative;'>
+        <div style='position:relative;'>
+          <canvas id='analytics-layout' style="border:1px solid #cccccc;width:100%;height:650px;"></canvas>
+        </div>
+        <div class='heatmap' style="">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">Beacons</div>
+      <div class="panel-body">
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead><tr><th>Beacon</th><th>Minor ID</th><th>Nº Requests</th></tr></thead>
+            <tbody id='beaconTableBody'></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

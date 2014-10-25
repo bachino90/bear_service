@@ -28,7 +28,7 @@ router.get('/', isLoggedIn, function(req, res) {
 });
 
 router.get('/all', isLoggedIn, function(req, res) {
-  BeaconRequest.find().populate('beacon', 'beacon_name').populate('store', 'store_name').populate('client', 'name').exec(function(err,requests) {
+  BeaconRequest.find().sort('-date').populate('beacon', 'beacon_name').populate('store', 'store_name').populate('client', 'name').exec(function(err,requests) {
     if (err) {
       res.json(err);
     } else {

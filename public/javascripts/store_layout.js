@@ -42,31 +42,33 @@ function drawGrid() {
 }
 
 function drawScale(scale) {
-  var canvas = document.getElementById('canvas_layout');
-  var context = canvas.getContext('2d');
+  if (scale > 0) {
+    var canvas = document.getElementById('canvas_layout');
+    var context = canvas.getContext('2d');
 
-  context.beginPath();
-  context.lineWidth="1.0";
-  context.strokeStyle="black";
-  context.rect(30.5,3.5,50.0,10.0);
-  context.stroke();
+    context.beginPath();
+    context.lineWidth="1.0";
+    context.strokeStyle="black";
+    context.rect(30.5,3.5,50.0,10.0);
+    context.stroke();
 
-  context.beginPath();
-  context.lineWidth="1.0";
-  context.strokeStyle="black";
-  context.rect(80.5,3.5,50.0,10.0);
-  context.stroke();
-  context.fillStyle="black";
-  context.fill();
+    context.beginPath();
+    context.lineWidth="1.0";
+    context.strokeStyle="black";
+    context.rect(80.5,3.5,50.0,10.0);
+    context.stroke();
+    context.fillStyle="black";
+    context.fill();
 
-  context.beginPath();
-  context.font="10px Verdana";
-  context.fillStyle="black";
-  context.fillText("0",27.5,28.0);
-  var first = parseInt(50.0/scale);
-  context.fillText(first.toString(),74.5,28.0);
-  var second = parseInt(100.0/scale);
-  context.fillText(second.toString()+"m",124.5,28.0);
+    context.beginPath();
+    context.font="10px Verdana";
+    context.fillStyle="black";
+    context.fillText("0",27.5,28.0);
+    var first = parseInt(50.0/scale);
+    context.fillText(first.toString(),74.5,28.0);
+    var second = parseInt(100.0/scale);
+    context.fillText(second.toString()+"m",124.5,28.0);
+  }
 }
 
 
@@ -123,7 +125,7 @@ $(document).ready(function() {
   });
 
   $('#editLayoutSubmit').click(function (){
-    var url = "";
+    var url = $('input#url').val();
     var data = new Object();
     var corners = new Array();
     var corners_x = $('input#x').map(function (){

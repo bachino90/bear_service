@@ -62,26 +62,33 @@ router.get('/', isLoggedIn, function(req,res) {
 // Get store_id
 router.get('/:store_id', isLoggedIn, function(req,res) {
   res.redirect(req.originalUrl+'/beacons');
-  /*
+});
+
+// GET /clients/:client_id/stores/:store_id/layout
+// Get store_id
+router.get('/:store_id/analytics', isLoggedIn, function(req,res) {
   Store.findById(req.params.store_id, function(err,store) {
     if (err) {
       res.render(err);
     }
-    console.log(store);
-    res.render('skeleton/update_store',{ store: store });
+    res.render('skeleton/analytics',{ store: store });
   });
-  */
 });
 
 // GET /clients/:client_id/stores/:store_id/layout
 // Get store_id
 router.get('/:store_id/layout', isLoggedIn, function(req,res) {
-  Store.findById(req.params.store_id, function(err,store) {
+  Store.findById(req.params.store_id).select('layout beacons').exec(function(err,store) {
     if (err) {
-      res.render(err);
+      res.json(err);
     }
-    console.log(store);
-    res.render('store/update_store_layout',{ store: store });
+    Beacon.find({ _id: { $in:store.beacons } }, 'position beacon_name minor_id').exec(function(err, beacons){
+      var st = new Object();
+      st.layout = store.layout;
+      st.beacons = beacons;
+      res.json(st);
+    });
+    //res.json(store.layout);
   });
 });
 
@@ -90,7 +97,6 @@ router.get('/:store_id/layout', isLoggedIn, function(req,res) {
 router.post('/', isLoggedIn, function(req,res) {
   Client.findById(client_id, function(err,client) {
     if (err) {
-      //res.render(err);
       redirectWithErrors(req, res, 1, err);
     }
     var store = new Store();
@@ -116,7 +122,6 @@ router.put('/:store_id', isLoggedIn, function(req,res) {
     store.store_name = req.body.store_name;
     store.location.latitude = req.body.latitude;
     store.location.longitude = req.body.longitude;
-    console.log('jojoj');
     store.save(function (err) {
       if (err) {
         console.log(err);
@@ -130,10 +135,10 @@ router.put('/:store_id', isLoggedIn, function(req,res) {
 // PUT /clients/:client_id/stores/:store_id/layout
 // Update store_id layout
 router.put('/:store_id/layout', isLoggedIn, function(req,res) {
+  console.log('update layout');
   Store.findById(req.params.store_id, function(err,store) {
     if (err) {
-      //res.render(err);
-      res.redirect('/clients/'+client_id+'/stores?new=2&err=0');
+      res.json(err);
     }
     console.log('LAYOUT raw text');
     console.log(req.body);
@@ -143,8 +148,7 @@ router.put('/:store_id/layout', isLoggedIn, function(req,res) {
     store.layout = layout;
     store.save(function (err){
       if (err) {
-        //res.render(err);
-        res.redirect('/clients/'+client_id+'/stores/?new=2&err=0');
+        res.json(err);
       }
       res.json(store.layout);
     })
@@ -157,12 +161,10 @@ router.put('/:store_id/layout', isLoggedIn, function(req,res) {
 router.delete('/:store_id', isLoggedIn, function(req,res) {
   Store.findOne({ _id:req.params.store_id }, function (err, store) {
     if (err) {
-      //res.render(err);
       res.redirect('/clients/'+client_id+'/stores?new=3&err=0');
     } else {
       store.remove(function(err) {
         if (err) {
-          //res.render(err);
           res.redirect('/clients/'+client_id+'/stores?new=3&err=0');
         } else {
           res.redirect('/clients/'+client_id+'/stores');
