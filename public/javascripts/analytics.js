@@ -173,10 +173,22 @@ function drawHeatMap(scale) {
   // create instance
   var heatmapInstance = h337.create({
     container: document.querySelector('.heatmap'),
-    radius: 12,
+    radius: 15,
     blur: 0.85,
     opacity: 0.45
   });
+  for (var beacon_id in beacons) {
+    var beacon = beacons[beacon_id];
+    // a single datapoint
+    var dataPoint = {
+      x: origin_x + beacon.position.x * scale, // x coordinate of the datapoint, a number
+      y: origin_y + beacon.position.y * scale - 0.5, // y coordinate of the datapoint, a number
+      value: beacon.requests.length // the value at datapoint(x, y)
+    };
+    if (dataPoint.value > 0) {
+      heatmapInstance.addData(dataPoint);
+    }
+  }
   /*
   document.querySelector('.heatmap').onmousemove = function(ev) {
     heatmapInstance.addData({
@@ -188,9 +200,63 @@ function drawHeatMap(scale) {
   */
 }
 
-function processHeatMapData(data, scale) {
-  var beaconRequests = new Array();
+function drawOSDoughnutChart(labels, points) {
+  var doughnutChartData = [
+    {
+        value: os_requests['IOS'].length,
+        color:"#F7464A",
+        highlight: "#FF5A5E",
+        label: "iOS"
+    },
+    {
+        value: os_requests['IOS'].length,
+        color: "#46BFBD",
+        highlight: "#5AD3D1",
+        label: "Android"
+    },
+    {
+        value: os_requests['IOS'].length,
+        color: "#FDB45C",
+        highlight: "#FFC870",
+        label: "Window Phone"
+    }
+]
 
+  // Get context with jQuery - using jQuery's .get() method.
+  var ctx = $("#osDoughnutChart").get(0).getContext("2d");
+  // This will get the first returned node in the jQuery collection.
+  var myNewChart = new Chart(ctx).Doughnut(doughnutChartData, {
+      responsive: true
+  });
+}
+
+function drawBeaconRadarChart(labels, points) {
+  var radarChartData = {
+    labels: labels,
+    datasets: [
+      {
+        label: "My First dataset",
+        fillColor: "rgba(220,220,220,0.2)",
+        strokeColor: "rgba(220,220,220,1)",
+        pointColor: "rgba(220,220,220,1)",
+        pointStrokeColor: "#fff",
+        pointHighlightFill: "#fff",
+        pointHighlightStroke: "rgba(220,220,220,1)",
+        data: points
+      }
+    ]
+  };
+  // Get context with jQuery - using jQuery's .get() method.
+  var ctx = $("#beaconRadarChart").get(0).getContext("2d");
+  // This will get the first returned node in the jQuery collection.
+  var myNewChart = new Chart(ctx).Radar(radarChartData, {
+      responsive: true
+  });
+}
+
+function processHeatMapData(data, scale) {
+  var labels = [];
+  var points = [];
   for (var i = 0; i < data.length; i++) {
     beacons[data[i].beacon].requests.push(data[i]);
     if (os_requests[data[i].device_os]) {
@@ -204,11 +270,19 @@ function processHeatMapData(data, scale) {
   for (var beacon_id in beacons) {
     var beacon = beacons[beacon_id];
     var numRequests = beacon.requests.length;
+    /*
     $("#beaconTableBody").append('<tr><th>'+beacon.beacon_name+
     '</th><th>'+beacon.minor_id+
     '</th><th>'+numRequests+
     '</th></tr>');
+    */
+    labels.push(beacon.beacon_name);
+    points.push(beacon.requests.length);
   }
+
+  drawBeaconRadarChart(labels, points);
+  drawOSDoughnutChart(labels, points);
+
   drawHeatMap(scale);
 }
 

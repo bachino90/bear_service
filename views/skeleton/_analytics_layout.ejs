@@ -4,7 +4,7 @@
       <div class='beacon-title bg-light-gray'>
         <div>Layout</div>
         <div>
-          <input id="slider" type="text" class="span2" value="" data-slider-min="10" data-slider-max="1000" data-slider-step="5" data-slider-value="[250,450]">
+          <input id="slider" type="text" class="span2" value="" data-slider-min="<%= firstDay %>" data-slider-max='<%= today %>' data-slider-step="5" data-slider-value="[250,450]">
         </div>
       </div>
       <input type='hidden' id='analyticsURL' value="/clients/<%= store.client %>/analytics/<%= store._id%>">
@@ -23,10 +23,17 @@
       <div class="panel-heading">Beacons</div>
       <div class="panel-body">
         <div class="table-responsive">
+          <!-- TABLE
           <table class="table table-striped">
             <thead><tr><th>Beacon</th><th>Minor ID</th><th>Nº Requests</th></tr></thead>
             <tbody id='beaconTableBody'></tbody>
           </table>
+          -->
+          <div>
+            tambien se podria compara entre distintos dias
+            <canvas id="beaconRadarChart"></canvas>
+            <canvas id='osDoughnutChart'></canvas>
+          </div>
         </div>
       </div>
     </div>

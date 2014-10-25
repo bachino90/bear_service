@@ -8,6 +8,7 @@ var router         = express.Router();
 var Store          = require('../models/beacon').Store;
 var Beacon         = require('../models/beacon').Beacon;
 var Client         = require('../models/beacon').Client;
+var BeaconRequest  = require('../models/beacon').BeaconRequest;
 var client_id;
 
 // route middleware to make sure a user is logged in
@@ -71,7 +72,17 @@ router.get('/:store_id/analytics', isLoggedIn, function(req,res) {
     if (err) {
       res.render(err);
     }
-    res.render('skeleton/analytics',{ store: store });
+    BeaconRequest.findOne().sort('+date').exec(function(err, request) {
+      if (err) {
+        res.render(err);
+      } else {
+        var today = new Date();
+        var firstDay = new Date(request.date);
+        res.render('skeleton/analytics',{ store: store,
+                                       firstDay: firstDay.valueOf(),
+                                          today: today.valueOf() });
+      }
+    })
   });
 });
 
