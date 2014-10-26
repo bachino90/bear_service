@@ -303,6 +303,15 @@ $(document).ready(function() {
 
   getLayout();
 
+  $("#slider").noUiSlider({
+    start: [20, 80],
+   connect: true,
+      range: {
+          'min': 0,
+            'max': 100
+           }
+         });
+
 });
 
 $(window).resize(drawLayout);
