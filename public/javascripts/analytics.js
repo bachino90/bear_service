@@ -1,5 +1,4 @@
 
-
 var origin_x = 30.5;
 var origin_y = 30.5;
 var corners_x = new Array();
@@ -8,6 +7,7 @@ var beacons = [];
 var os_requests = [];
 var heatmapInstance;
 var radius_heatmap = 15;
+var drawOnce = true;
 
 function drawGrid() {
   var c = $('#analytics-layout');
@@ -193,7 +193,7 @@ function drawHeatMap(scale) {
     }
   }
   heatmapInstance.setData({data: heat_data});
-
+  heatmapInstance.repaint();
   /*
   document.querySelector('.heatmap').onmousemove = function(ev) {
     heatmapInstance.addData({
@@ -285,8 +285,11 @@ function processHeatMapData(data, scale) {
     points.push(beacon.requests.length);
   }
 
-  drawBeaconRadarChart(labels, points);
-  drawOSDoughnutChart(labels, points);
+  if (drawOnce) {
+    drawBeaconRadarChart(labels, points);
+    drawOSDoughnutChart(labels, points);
+    drawOnce = false;
+  }
 
   drawHeatMap(scale);
 }
