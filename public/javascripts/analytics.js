@@ -6,6 +6,8 @@ var corners_x = new Array();
 var corners_y = new Array();
 var beacons = [];
 var os_requests = [];
+var heatmapInstance;
+var radius_heatmap = 15;
 
 function drawGrid() {
   var c = $('#analytics-layout');
@@ -100,6 +102,8 @@ function drawLayout() {
   drawGrid();
 
   if (corners_x && corners_y) {
+    origin_x = 30.5;
+    origin_y = 30.5;
     var maxX = Math.max.apply(null, corners_x);
     var maxY = Math.max.apply(null, corners_y);
     var scale;
@@ -171,12 +175,11 @@ function getLayout() {
 
 function drawHeatMap(scale) {
   // create instance
-  var heatmapInstance = h337.create({
-    container: document.querySelector('.heatmap'),
-    radius: 15,
-    blur: 0.85,
-    opacity: 0.45
-  });
+  var nuConfig = {
+    radius: radius_heatmap * scale,
+  };
+  heatmapInstance.configure(nuConfig);
+  var heat_data = new Array();
   for (var beacon_id in beacons) {
     var beacon = beacons[beacon_id];
     // a single datapoint
@@ -186,9 +189,11 @@ function drawHeatMap(scale) {
       value: beacon.requests.length // the value at datapoint(x, y)
     };
     if (dataPoint.value > 0) {
-      heatmapInstance.addData(dataPoint);
+      heat_data.push(dataPoint);
     }
   }
+  heatmapInstance.setData({data: heat_data});
+
   /*
   document.querySelector('.heatmap').onmousemove = function(ev) {
     heatmapInstance.addData({
@@ -300,6 +305,13 @@ function getAnalytics(scale) {
 //======================================================================================================//
 
 $(document).ready(function() {
+
+  heatmapInstance = h337.create({
+    container: document.querySelector('.heatmap'),
+    radius: radius_heatmap,
+    blur: 0.85,
+    opacity: 0.45
+  });
 
   getLayout();
 
